@@ -18,7 +18,8 @@ module.exports = {
       current: 'currentColor',
       'custom-blue':'#87B7FF',
       'custom-yellow':'#F7C146',
-      'custom-dark-blue':'#44AFC3'
+      'custom-dark-blue':'#44AFC3',
+      'custom-light-blue' : '#DFECFF'
     }},
     
     
