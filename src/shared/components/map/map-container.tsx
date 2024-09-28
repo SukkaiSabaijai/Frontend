@@ -26,9 +26,6 @@ const Map = ({ posix, zoom = 19, children }: Props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={posix} draggable={false}>
-        <Popup>click</Popup>
-      </Marker>
       {children}
     </MapContainer>
   );
