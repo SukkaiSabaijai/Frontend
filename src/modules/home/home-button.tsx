@@ -3,7 +3,10 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 
 const HomeButton = () => {
   return (
-    <div className="bottom-0 right-0 absolute z-[1000] flex flex-col w-full p-8 gap-6">
+    <div
+      className="bottom-0 right-0 absolute z-[1000] flex flex-col w-full p-8 gap-6"
+      style={{ pointerEvents: "none" }}
+    >
       <div className="flex gap-6 items-end justify-between w-full ">
         <ButtonIcon
           width={28}

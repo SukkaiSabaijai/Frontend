@@ -18,6 +18,7 @@ const ButtonIcon = ({ onClick, className, src, width, height, alt }: Props) => {
         className
       )}
       onClick={onClick}
+      style={{ pointerEvents: "auto" }}
     >
       <Image src={src} width={width} height={height} alt={alt} />
     </button>
