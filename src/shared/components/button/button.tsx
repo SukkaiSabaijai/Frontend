@@ -14,6 +14,7 @@ const Button = ({ onClick, className, children }: Props) => {
         className
       )}
       onClick={onClick}
+      style={{ pointerEvents: "auto" }}
     >
       {children}
     </button>

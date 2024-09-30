@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useMemo } from "react";
 import L, { LatLngTuple, LeafletEventHandlerFnMap } from "leaflet";
@@ -11,14 +12,22 @@ import "./home-map.css";
 import UserMarker from "@/shared/components/map/user-marker";
 import DetailDrawer from "./detail-drawer/detail-drawer";
 import ClusterGroupMarker from "@/shared/components/map/cluster-group-marker";
+import { useBoolean } from "@/shared/hooks/use-boolean";
 
-const pinIcon = "/assets/icon/pin.svg";
+const pinIconUrl = "/assets/icon/pin.svg";
+const clickPinIconUrl = "/assets/icon/click-pin.svg";
 
-const customPinIcon = new L.Icon({
-  iconUrl: pinIcon,
+const pinIcon = new L.Icon({
+  iconUrl: pinIconUrl,
   iconSize: [38, 38],
   iconAnchor: [19, 38],
   popupAnchor: [0, -38],
+});
+const clickPinIcon = new L.Icon({
+  iconUrl: clickPinIconUrl,
+  iconSize: [64, 64],
+  iconAnchor: [32, 64],
+  popupAnchor: [0, -64],
 });
 
 const locations = [
@@ -82,7 +91,8 @@ const defaultPosition: LatLngTuple = [13.729049855504648, 100.7756144956521];
 export default function HomeMap() {
   const [position, setPosition] = useState<LatLngTuple>(defaultPosition);
   const [zoomLevel, setZoomLevel] = useState<number>(19);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const openDrawer = useBoolean(false);
+  const [clickId, setClickId] = useState<number>();
 
   const Map = useMemo(
     () =>
@@ -101,6 +111,8 @@ export default function HomeMap() {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
+          console.log(latitude)
+          console.log(longitude)
           setPosition([latitude, longitude]);
         },
         (err) => {
@@ -125,14 +137,23 @@ export default function HomeMap() {
     return null;
   };
 
-  const handleMarkerClicked = (position: LatLngTuple) =>
+  const handleMarkerClicked = (position: LatLngTuple, id: number) =>
     ({
       click: (e) => {
         const map = e.target._map;
-        map.flyTo(position, 18, {
-          duration: 1.5,
-        });
-        setOpenDrawer(true);
+        const mapCenter = map.getCenter();
+        const distance = mapCenter.distanceTo(position);
+
+        /** ****************************************
+         * check ตอนกดปุ่มซ้ำ ไม่งั้นแมพจะสั่นนิดหน่อย
+         **************************************** */
+        if (distance > 5) {
+          map.flyTo(position, 18, {
+            duration: 1.5,
+          });
+        }
+        openDrawer.onTrue();
+        setClickId(id);
       },
     } as LeafletEventHandlerFnMap);
 
@@ -144,17 +165,24 @@ export default function HomeMap() {
         {zoomLevel >= 11 && (
           <>
             <UserMarker position={position} />
-
-            <ClusterGroupMarker
-              locations={locations}
-              icon={customPinIcon}
-              handleMarkerClicked={handleMarkerClicked}
-            />
+            <MarkerClusterGroup maxClusterRadius={50}>
+              {locations.map((location) => (
+                <Marker
+                  key={location.id}
+                  position={location.position as LatLngTuple}
+                  icon={location.id == clickId ? clickPinIcon : pinIcon}
+                  eventHandlers={handleMarkerClicked(
+                    location.position as LatLngTuple,
+                    location.id
+                  )}
+                ></Marker>
+              ))}
+            </MarkerClusterGroup>
           </>
         )}
       </Map>
 
-      <DetailDrawer open={openDrawer} setOpen={setOpenDrawer} />
+      <DetailDrawer openDrawer={openDrawer} />
     </>
   );
 }

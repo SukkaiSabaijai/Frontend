@@ -1,18 +1,17 @@
 "use client";
 
 import ButtonIcon from "@/shared/components/button/button-icon";
+import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
-import { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  openDrawer: UseBooleanReturn;
 };
 
-const DetailDrawer = ({ open, setOpen }: Props) => {
+const DetailDrawer = ({ openDrawer }: Props) => {
   return (
     <Drawer
-      open={open}
+      open={openDrawer.value}
       anchor="bottom"
       sx={{
         "& .MuiDrawer-paper": {
@@ -27,7 +26,7 @@ const DetailDrawer = ({ open, setOpen }: Props) => {
     >
       hi
       <ButtonIcon
-        onClick={() => setOpen(false)}
+        onClick={openDrawer.onFalse}
         width={30}
         height={41}
         alt="rest-icon"
