@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useEffect } from "react";
 import Button from "@/shared/components/button/button";
@@ -6,12 +6,16 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 import { useBoolean } from "@/shared/hooks/use-boolean";
 import SearchDrawer from "./search-drawer/search-drawer";
 
-const HomeButton = () => {
+type Props = {
+  handleClickSearch: () => void;
+};
+
+const HomeButton = ({ handleClickSearch }: Props) => {
   const openSearchDrawer = useBoolean(false);
 
-  useEffect(()=>{
-    console.log(openSearchDrawer.value)
-  },[openSearchDrawer.value])
+  useEffect(() => {
+    console.log(openSearchDrawer.value);
+  }, [openSearchDrawer.value]);
   return (
     <>
       <div
@@ -42,12 +46,10 @@ const HomeButton = () => {
           </div>
         </div>
 
-        <Button className="rounded-xl w-full" onClick={openSearchDrawer.onTrue}>
+        <Button className="rounded-xl w-full" onClick={handleClickSearch}>
           Search For Toilet
         </Button>
       </div>
-
-      <SearchDrawer openDrawer={openSearchDrawer} />
     </>
   );
 };

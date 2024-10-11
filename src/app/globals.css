@@ -50,3 +50,7 @@ body {
 .h-screen {
   height: 100vh;
 }
+
+.pac-container {
+  z-index: 2000;
+}

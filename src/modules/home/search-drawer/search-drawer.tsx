@@ -4,14 +4,18 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
 import TextField from "@mui/material/TextField";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import SearchInput from "./search-input";
+import HomeSearch from "../home-search";
+import L from "leaflet";
+
 
 type Props = {
   openDrawer: UseBooleanReturn;
+  setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
 };
 
-const SearchDrawer = ({ openDrawer }: Props) => {
+const SearchDrawer = ({ openDrawer, setSearchBound }: Props) => {
   return (
     <Drawer
       sx={{
@@ -29,7 +33,7 @@ const SearchDrawer = ({ openDrawer }: Props) => {
       open={openDrawer.value}
     >
       <div className="flex flex-col">
-        <SearchInput label="Search by location" onChange={(e)=>console.log(e.target.value)}/>
+        <HomeSearch setSearchBound={setSearchBound} />
         <ButtonIcon
           onClick={openDrawer.onFalse}
           width={30}

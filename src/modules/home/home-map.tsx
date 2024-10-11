@@ -1,17 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useMemo } from "react";
 import L, { LatLngTuple, LeafletEventHandlerFnMap } from "leaflet";
-import { Marker, useMapEvents } from "react-leaflet";
+import { Marker, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "./home-map.css";
 import UserMarker from "@/shared/components/map/user-marker";
 import DetailDrawer from "./detail-drawer/detail-drawer";
-import ClusterGroupMarker from "@/shared/components/map/cluster-group-marker";
 import { useBoolean } from "@/shared/hooks/use-boolean";
 
 const pinIconUrl = "/assets/icon/location-pin.svg";
@@ -81,6 +80,11 @@ const locations = [
   { id: 48, name: "Park 48", position: [13.77, 100.807] },
   { id: 49, name: "Library 49", position: [13.771, 100.808] },
   { id: 50, name: "Cafe 50", position: [13.772, 100.809] },
+  {
+    id: 51,
+    name: "ฟหดำดกหด",
+    position: [13.770990092912811, 100.55617921355451],
+  },
 ];
 
 /** **********************************
@@ -88,11 +92,16 @@ const locations = [
  ********************************** */
 const defaultPosition: LatLngTuple = [13.729049855504648, 100.7756144956521];
 
-export default function HomeMap() {
+type Props = {
+  searchBound: L.LatLngBounds | null;
+};
+
+export default function HomeMap({ searchBound }: Props) {
   const [position, setPosition] = useState<LatLngTuple>(defaultPosition);
   const [zoomLevel, setZoomLevel] = useState<number>(19);
   const openDrawer = useBoolean(false);
   const [clickId, setClickId] = useState<number>();
+  const previousBoundsRef = useRef<L.LatLngBounds | null>(null);
 
   const Map = useMemo(
     () =>
@@ -128,6 +137,19 @@ export default function HomeMap() {
   }, []);
 
   const MapEvents = () => {
+    const map = useMap();
+    useEffect(() => {
+      if (searchBound) {
+        if (
+          !previousBoundsRef.current ||
+          !searchBound.equals(previousBoundsRef.current)
+        ) {
+          map.flyToBounds(searchBound, { duration: 1.5 });
+          previousBoundsRef.current = searchBound;
+        }
+      }
+    }, [searchBound, map]);
+
     useMapEvents({
       zoomend: (e) => {
         const map = e.target;

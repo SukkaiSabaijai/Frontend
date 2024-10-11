@@ -1,19 +1,62 @@
 "use client";
 
-import Button from "@/shared/components/button/button";
-import React from "react";
+import { Library } from "@googlemaps/js-api-loader";
+import { Input } from "@mui/material";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  useLoadScript,
+} from "@react-google-maps/api";
+import React, { useEffect, useRef, useState } from "react";
+
+const libs: Library[] = ["places"];
 
 const RegisterPage = () => {
+  const [autocomplete, setAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY as string,
+    libraries: libs,
+  });
+  const placeAutocompleteRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isLoaded) {
+      const gAutocomplete = new google.maps.places.Autocomplete(
+        placeAutocompleteRef.current as HTMLInputElement
+      );
+      setAutocomplete(gAutocomplete);
+      window.google.maps.event.addListener(
+        gAutocomplete,
+        "place_changed",
+        () => {
+          const pacContainer = document.querySelector(".pac-container");
+          if (pacContainer) {
+            (pacContainer as HTMLElement).style.zIndex = "2000"; // Set z-index higher than Drawer
+          }
+        }
+      );
+    }
+  }, [isLoaded]);
+
+  useEffect(() => {
+    console.log("auto : ", autocomplete?.getPlace);
+  }, [autocomplete]);
   return (
-    <>
-    {/* เพิ่มสีที่ใช้ใน figma ไว้ให้ เวลาเรียกใช้ก็เรียกปกติเลย จะขึ้นต้นด้วย custom แล้วตามด้วยชื่อสี ถ้าจะเพิ่มสีที่ไม่มีอยู่ใน default ของ tailwind ก็ไปเพิ่มใน tailwind.config.js นะ */}
-      <h1 className="text-3xl font-bold underline bg-custom-blue">
-        this is register
-      </h1>
-      <Button>
-        <h1>Register</h1>
-      </Button>
-    </>
+    <div>
+      <input
+        ref={placeAutocompleteRef}
+        type="text"
+        placeholder="Search for a place"
+        style={{
+          width: "100%",
+          padding: "10px",
+          fontSize: "16px",
+          zIndex: "2000", // Ensure input also has high z-index
+        }}
+      />
+    </div>
   );
 };
 
