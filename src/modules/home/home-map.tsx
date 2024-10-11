@@ -14,7 +14,7 @@ import DetailDrawer from "./detail-drawer/detail-drawer";
 import ClusterGroupMarker from "@/shared/components/map/cluster-group-marker";
 import { useBoolean } from "@/shared/hooks/use-boolean";
 
-const pinIconUrl = "/assets/icon/pin.svg";
+const pinIconUrl = "/assets/icon/location-pin.svg";
 const clickPinIconUrl = "/assets/icon/click-pin.svg";
 
 const pinIcon = new L.Icon({
@@ -111,8 +111,8 @@ export default function HomeMap() {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const { latitude, longitude } = pos.coords;
-          console.log(latitude)
-          console.log(longitude)
+          console.log(latitude);
+          console.log(longitude);
           setPosition([latitude, longitude]);
         },
         (err) => {
