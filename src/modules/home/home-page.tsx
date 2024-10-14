@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeHeader from "./home-header";
 import ButtonIcon from "@/shared/components/button/button-icon";
 import HomeButton from "./home-button";
@@ -8,6 +8,8 @@ import dynamic from "next/dynamic";
 import { useBoolean } from "@/shared/hooks/use-boolean";
 import SearchDrawer from "./search-drawer/search-drawer";
 import L from "leaflet";
+import { test } from "./_services/home.service";
+// import { test } from "./_services/home.service";
 
 const HomeMap = dynamic(() => import("./home-map"), {
   ssr: false,
@@ -20,6 +22,11 @@ const HomePage = () => {
   const handleClickSearch = () => {
     openSearchDrawer.onTrue();
   };
+
+  useEffect(() => {
+    test();
+  }, []);
+
   return (
     <>
       <HomeHeader />

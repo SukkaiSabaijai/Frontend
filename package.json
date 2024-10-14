@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^5.16.6",
     "@react-google-maps/api": "^2.20.3",
     "@types/google.maps": "^3.58.1",
+    "axios": "^1.7.7",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "leaflet.markercluster": "^1.5.3",
