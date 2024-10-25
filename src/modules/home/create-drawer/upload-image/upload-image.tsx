@@ -62,7 +62,7 @@ const UploadImage = () => {
 
   return (
     <div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
         <label
           className="w-full h-36 rounded-lg border-2 border-dashed border-custom-blue flex flex-col items-center justify-center gap-2"
           id="upload-label"

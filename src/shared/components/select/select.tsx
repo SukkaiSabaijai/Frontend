@@ -7,9 +7,10 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 type Props = {
   label: string;
   setCategoryList: Dispatch<SetStateAction<string[]>>;
+  className?:string
 };
 
-const Select = ({ label, setCategoryList }: Props) => {
+const Select = ({ label, setCategoryList,className }: Props) => {
   const isSelect = useBoolean(false);
   const handleOnClick = () => {
     setCategoryList((prevList) => {
@@ -22,7 +23,7 @@ const Select = ({ label, setCategoryList }: Props) => {
     isSelect.onToggle();
   };
   return (
-    <div className="flex gap-2 text-white justify-center items-center">
+    <div className={cn("flex gap-2 text-white justify-center items-center",className)}>
       <p>{label}</p>
       <div
         className={`w-10 h-5 bg-custom-light-blue rounded-full flex items-center px-1 ${

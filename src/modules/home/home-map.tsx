@@ -11,8 +11,9 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "./home-map.css";
 import UserMarker from "@/shared/components/map/user-marker";
 import DetailDrawer from "./detail-drawer/detail-drawer";
-import { useBoolean } from "@/shared/hooks/use-boolean";
+import { useBoolean, UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Image from "next/image";
+import { FilterRadiusLatlngType } from "./_types/home.type";
 
 const pinIconUrl = "/assets/icon/location-pin.svg";
 const clickPinIconUrl = "/assets/icon/click-pin.svg";
@@ -97,14 +98,21 @@ type Props = {
   searchBound: L.LatLngBounds | null;
   setLocation: Dispatch<SetStateAction<LatLng | null>>;
   selectLocation: boolean;
+  filterRadius: number | null;
+  setFilterRadiusLatlng: Dispatch<SetStateAction<FilterRadiusLatlngType>>;
+  flyToCurrentLocation: UseBooleanReturn;
 };
 
 export default function HomeMap({
   searchBound,
   setLocation,
   selectLocation,
+  filterRadius,
+  setFilterRadiusLatlng,
+  flyToCurrentLocation,
 }: Props) {
-  const [position, setPosition] = useState<LatLngTuple>(defaultPosition);
+  const [userLocation, setUserLocation] =
+    useState<LatLngTuple>(defaultPosition);
   const [zoomLevel, setZoomLevel] = useState<number>(19);
   const openDrawer = useBoolean(false);
   const [clickId, setClickId] = useState<number | null>(null);
@@ -129,10 +137,11 @@ export default function HomeMap({
           const { latitude, longitude } = pos.coords;
           console.log(latitude);
           console.log(longitude);
-          setPosition([latitude, longitude]);
+          // setPosition([latitude, longitude]);
+          setUserLocation([latitude, longitude]);
         },
         (err) => {
-          setPosition(defaultPosition);
+          setUserLocation(defaultPosition);
         },
         {
           enableHighAccuracy: true,
@@ -156,6 +165,48 @@ export default function HomeMap({
         }
       }
     }, [searchBound, map]);
+
+    useEffect(() => {
+      if (flyToCurrentLocation.value && userLocation) {
+        map.flyTo(userLocation, 18, {
+          duration: 1.5,
+        });
+
+        flyToCurrentLocation.onFalse();
+      }
+    }, [flyToCurrentLocation, map]);
+
+    useEffect(() => {
+      if (filterRadius && map) {
+        const center = map.getCenter();
+        const circle = L.circle(center, { radius: filterRadius }).addTo(map);
+        const bounds = circle.getBounds();
+
+        const southWest = bounds.getSouthWest();
+        const northEast = bounds.getNorthEast();
+
+        /** *********************************
+         * check ค่าไม่งั้นจะ rerenderซ้ำๆ
+         ********************************* */
+        setFilterRadiusLatlng((prev) => {
+          if (
+            prev.min_lat !== southWest.lat ||
+            prev.max_lat !== northEast.lat ||
+            prev.min_lng !== southWest.lng ||
+            prev.max_lng !== northEast.lng
+          ) {
+            return {
+              min_lat: southWest.lat,
+              max_lat: northEast.lat,
+              min_lng: southWest.lng,
+              max_lng: northEast.lng,
+            };
+          }
+          return prev;
+        });
+        map.removeLayer(circle);
+      }
+    }, [map, filterRadius]);
 
     useMapEvents({
       zoomend: (e) => {
@@ -201,12 +252,12 @@ export default function HomeMap({
 
   return (
     <>
-      <Map posix={position} zoom={zoomLevel}>
+      <Map posix={userLocation} zoom={zoomLevel}>
         <MapEvents />
 
         {zoomLevel >= 11 && (
           <>
-            <UserMarker position={position} />
+            <UserMarker position={userLocation} />
             <MarkerClusterGroup maxClusterRadius={50}>
               {locations.map((location) => (
                 <Marker

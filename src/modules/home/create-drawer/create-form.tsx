@@ -1,12 +1,8 @@
-import TextFieldCustom from "@/shared/components/input/text-field";
 import React, { useEffect } from "react";
 import UploadImage from "./upload-image/upload-image";
 import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import { LatLng } from "leaflet";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
-import { defaultValue, formSchema, FormValues } from "./form-validators";
-import { Form } from "@/shared/components/hook-form/form-provider";
 import { RHFTextField } from "@/shared/components/hook-form/rhf-text-field";
 import RHFSelect from "@/shared/components/hook-form/rhf-select";
 import Image from "next/image";
@@ -23,7 +19,6 @@ const CreateForm = ({
   openDrawer,
   selectLocation,
   location,
-  formValues,
   setFormValues,
 }: Props) => {
   const { getValues, setValue } = useFormContext();

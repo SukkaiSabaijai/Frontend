@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 import L from "leaflet";
+import ButtonIcon from "@/shared/components/button/button-icon";
 
 type Props = {
   setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
@@ -28,7 +29,6 @@ const HomeSearch = ({ setSearchBound }: Props) => {
   const placeAutocompleteRef = useRef<HTMLInputElement>(null);
 
   const handlePlaceChanged = () => {
-    console.log("hi");
     if (autocomplete) {
       const place = autocomplete.getPlace();
       if (place && place.geometry) {
@@ -50,7 +50,10 @@ const HomeSearch = ({ setSearchBound }: Props) => {
   useEffect(() => {
     if (isLoaded) {
       const gAutocomplete = new google.maps.places.Autocomplete(
-        placeAutocompleteRef.current as HTMLInputElement
+        placeAutocompleteRef.current as HTMLInputElement,
+        {
+          componentRestrictions: { country: "TH" },
+        }
       );
       setAutocomplete(gAutocomplete);
     }
@@ -63,17 +66,19 @@ const HomeSearch = ({ setSearchBound }: Props) => {
     }
   }, [autocomplete]);
   return (
-    <div>
+    <div className="flex gap-8 items-center">
       <input
         ref={placeAutocompleteRef}
         type="text"
         placeholder="Search for a place"
-        style={{
-          width: "100%",
-          padding: "10px",
-          fontSize: "16px",
-          zIndex: "2000",
-        }}
+        className="shadow-md shadow-slate-400 h-12 w-full p-2 text-[16px] z-[2000]"
+      />
+      <ButtonIcon
+        src="/assets/icon/search.svg"
+        alt="search-icon"
+        width={25}
+        height={25}
+        className="rounded-full h-14"
       />
     </div>
   );

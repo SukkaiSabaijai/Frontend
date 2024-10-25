@@ -9,9 +9,10 @@ import SearchDrawer from "./search-drawer/search-drawer";
 type Props = {
   handleClickSearch: () => void;
   handleClickCreate: () => void;
+  handleClickCurrentLocation: () => void;
 };
 
-const HomeButton = ({ handleClickSearch, handleClickCreate }: Props) => {
+const HomeButton = ({ handleClickSearch, handleClickCreate,handleClickCurrentLocation }: Props) => {
   const openSearchDrawer = useBoolean(false);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const HomeButton = ({ handleClickSearch, handleClickCreate }: Props) => {
               height={41}
               alt="pin-icon"
               src="/assets/icon/pin.svg"
+              onClick={handleClickCurrentLocation}
             />
           </div>
         </div>

@@ -14,14 +14,18 @@ import HomeFilter from "./home-filter";
 type Props = {
   openDrawer: UseBooleanReturn;
   setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
+  setRadius:Dispatch<SetStateAction<number | null>>
 };
 
-const SearchDrawer = ({ openDrawer, setSearchBound }: Props) => {
+const SearchDrawer = ({ openDrawer, setSearchBound,setRadius }: Props) => {
+  const handleSearchOnClick = ()=>{
+    
+  }
   return (
     <Drawer
       sx={{
         "& .MuiDrawer-paper": {
-          height: "30%",
+          height: "45%",
           width: "100%",
           zIndex: "1500",
           position: "fixed",
@@ -33,9 +37,9 @@ const SearchDrawer = ({ openDrawer, setSearchBound }: Props) => {
       anchor="bottom"
       open={openDrawer.value}
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-6">
         <HomeSearch setSearchBound={setSearchBound} />
-        <HomeFilter/>
+        <HomeFilter setRadius={setRadius}/>
         <ButtonIcon
           onClick={openDrawer.onFalse}
           width={30}

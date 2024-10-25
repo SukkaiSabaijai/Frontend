@@ -8,14 +8,14 @@ type Props = {
   width: number;
   height: number;
   alt: string;
-  type?:"button" | "reset" | "submit";
+  type?: "button" | "reset" | "submit";
 };
 
-const ButtonIcon = ({ onClick, className, src, width, height, alt,type }: Props) => {
+const ButtonIcon = ({ onClick, className, src, width, height, alt, type }: Props) => {
   return (
     <button
       className={cn(
-        " bg-custom-light-blue shadow-md shadow-slate-400 w-16 h-16 text-white text-2xl font-semibold rounded-2xl hover:bg-custom-yellow transition ease-in-out duration-300 flex justify-center items-center",
+        "bg-custom-light-blue shadow-md shadow-slate-400 w-16 h-16 text-white text-2xl font-semibold rounded-2xl hover:bg-custom-light-yellow active:bg-custom-light-yellow focus:bg-custom-light-blue transition ease-in-out duration-300 flex justify-center items-center",
         className
       )}
       onClick={onClick}

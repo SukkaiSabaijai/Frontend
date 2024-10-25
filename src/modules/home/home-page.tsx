@@ -11,6 +11,7 @@ import L, { LatLng } from "leaflet";
 import { test } from "./_services/home.service";
 import CreateDrawer from "./create-drawer/create-drawer";
 import SelectLocation from "./create-drawer/select-location";
+import { FilterRadiusLatlngType } from "./_types/home.type";
 // import { test } from "./_services/home.service";
 
 const HomeMap = dynamic(() => import("./home-map"), {
@@ -26,8 +27,23 @@ const HomePage = () => {
   const openCreateDrawer = useBoolean(false);
   const selectLocation = useBoolean(false);
   const [searchBound, setSearchBound] = useState<L.LatLngBounds | null>(null);
+  const [filterRadius, setFilterRadius] = useState<number | null>(null);
+  const flyToCurrentLocation = useBoolean(false)
+
   const [location, setLocation] = useState<LatLng | null>(null);
   const [formValues, setFormValues] = useState({});
+
+  const [filterRadiusLatlng, setFilterRadiusLatLng] =
+    useState<FilterRadiusLatlngType>({
+      min_lat: 0,
+      max_lat: 0,
+      min_lng: 0,
+      max_lng: 0,
+    });
+
+    /** ******************
+     * home button func
+     ****************** */
 
   const handleClickSearch = () => {
     openSearchDrawer.onTrue();
@@ -37,15 +53,30 @@ const HomePage = () => {
     openCreateDrawer.onTrue();
   };
 
+  const handleClickCurrentLocation = () => {
+    flyToCurrentLocation.onTrue()
+  }
+
+  //------------------------------------------
+
   const handleClickSelectLocation = () => {
     openCreateDrawer.onTrue();
   };
+
 
   const handleBackIconOnClick = () => {
     openCreateDrawer.onFalse();
     selectLocation.onFalse();
     setLocation(null);
   };
+
+  const handleFilter = () => {
+
+  }
+
+  useEffect(()=>{
+    console.log(filterRadiusLatlng)
+  },[filterRadiusLatlng])
 
   return (
     <>
@@ -54,6 +85,9 @@ const HomePage = () => {
         searchBound={searchBound}
         setLocation={setLocation}
         selectLocation={selectLocation.value}
+        filterRadius={filterRadius}
+        setFilterRadiusLatlng={setFilterRadiusLatLng}
+        flyToCurrentLocation={flyToCurrentLocation}
       />
       {selectLocation.value ? (
         <>
@@ -67,6 +101,7 @@ const HomePage = () => {
           <HomeButton
             handleClickSearch={handleClickSearch}
             handleClickCreate={handleClickCreate}
+            handleClickCurrentLocation={handleClickCurrentLocation}
           />
         </>
       )}
@@ -81,6 +116,7 @@ const HomePage = () => {
       <SearchDrawer
         openDrawer={openSearchDrawer}
         setSearchBound={setSearchBound}
+        setRadius={setFilterRadius}
       />
     </>
   );
