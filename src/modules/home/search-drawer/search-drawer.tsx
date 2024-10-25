@@ -8,6 +8,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import SearchInput from "./search-input";
 import HomeSearch from "../home-search";
 import L from "leaflet";
+import HomeFilter from "./home-filter";
 
 
 type Props = {
@@ -34,6 +35,7 @@ const SearchDrawer = ({ openDrawer, setSearchBound }: Props) => {
     >
       <div className="flex flex-col">
         <HomeSearch setSearchBound={setSearchBound} />
+        <HomeFilter/>
         <ButtonIcon
           onClick={openDrawer.onFalse}
           width={30}

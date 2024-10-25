@@ -8,9 +8,10 @@ import SearchDrawer from "./search-drawer/search-drawer";
 
 type Props = {
   handleClickSearch: () => void;
+  handleClickCreate: () => void;
 };
 
-const HomeButton = ({ handleClickSearch }: Props) => {
+const HomeButton = ({ handleClickSearch, handleClickCreate }: Props) => {
   const openSearchDrawer = useBoolean(false);
 
   useEffect(() => {
@@ -36,6 +37,13 @@ const HomeButton = ({ handleClickSearch }: Props) => {
               height={41}
               alt="rest-icon"
               src="/assets/icon/rest.svg"
+            />
+            <ButtonIcon
+              width={41}
+              height={41}
+              alt="create-icon"
+              src="/assets/icon/create-marker.svg"
+              onClick={handleClickCreate}
             />
             <ButtonIcon
               width={30}

@@ -8,9 +8,10 @@ type Props = {
   width: number;
   height: number;
   alt: string;
+  type?:"button" | "reset" | "submit";
 };
 
-const ButtonIcon = ({ onClick, className, src, width, height, alt }: Props) => {
+const ButtonIcon = ({ onClick, className, src, width, height, alt,type }: Props) => {
   return (
     <button
       className={cn(
@@ -19,6 +20,7 @@ const ButtonIcon = ({ onClick, className, src, width, height, alt }: Props) => {
       )}
       onClick={onClick}
       style={{ pointerEvents: "auto" }}
+      type={type}
     >
       <Image src={src} width={width} height={height} alt={alt} />
     </button>

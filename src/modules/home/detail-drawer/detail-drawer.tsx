@@ -6,9 +6,10 @@ import Drawer from "@mui/material/Drawer";
 
 type Props = {
   openDrawer: UseBooleanReturn;
+  handleBackIconOnClick:()=>void
 };
 
-const DetailDrawer = ({ openDrawer }: Props) => {
+const DetailDrawer = ({ openDrawer,handleBackIconOnClick }: Props) => {
   return (
     <Drawer
       open={openDrawer.value}
@@ -26,7 +27,7 @@ const DetailDrawer = ({ openDrawer }: Props) => {
     >
       hi
       <ButtonIcon
-        onClick={openDrawer.onFalse}
+        onClick={handleBackIconOnClick}
         width={30}
         height={41}
         alt="rest-icon"

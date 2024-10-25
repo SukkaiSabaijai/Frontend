@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { Dispatch, SetStateAction, useRef } from "react";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useMemo } from "react";
-import L, { LatLngTuple, LeafletEventHandlerFnMap } from "leaflet";
+import L, { LatLng, LatLngTuple, LeafletEventHandlerFnMap } from "leaflet";
 import { Marker, useMap, useMapEvents } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
@@ -12,6 +12,7 @@ import "./home-map.css";
 import UserMarker from "@/shared/components/map/user-marker";
 import DetailDrawer from "./detail-drawer/detail-drawer";
 import { useBoolean } from "@/shared/hooks/use-boolean";
+import Image from "next/image";
 
 const pinIconUrl = "/assets/icon/location-pin.svg";
 const clickPinIconUrl = "/assets/icon/click-pin.svg";
@@ -24,9 +25,9 @@ const pinIcon = new L.Icon({
 });
 const clickPinIcon = new L.Icon({
   iconUrl: clickPinIconUrl,
-  iconSize: [64, 64],
-  iconAnchor: [32, 64],
-  popupAnchor: [0, -64],
+  iconSize: [38, 38],
+  iconAnchor: [19, 38],
+  popupAnchor: [0, -38],
 });
 
 const locations = [
@@ -94,13 +95,19 @@ const defaultPosition: LatLngTuple = [13.729049855504648, 100.7756144956521];
 
 type Props = {
   searchBound: L.LatLngBounds | null;
+  setLocation: Dispatch<SetStateAction<LatLng | null>>;
+  selectLocation: boolean;
 };
 
-export default function HomeMap({ searchBound }: Props) {
+export default function HomeMap({
+  searchBound,
+  setLocation,
+  selectLocation,
+}: Props) {
   const [position, setPosition] = useState<LatLngTuple>(defaultPosition);
   const [zoomLevel, setZoomLevel] = useState<number>(19);
   const openDrawer = useBoolean(false);
-  const [clickId, setClickId] = useState<number>();
+  const [clickId, setClickId] = useState<number | null>(null);
   const previousBoundsRef = useRef<L.LatLngBounds | null>(null);
 
   const Map = useMemo(
@@ -155,6 +162,14 @@ export default function HomeMap({ searchBound }: Props) {
         const map = e.target;
         setZoomLevel(map.getZoom());
       },
+      moveend: (e) => {
+        if (selectLocation) {
+          const map = e.target;
+          const center = map.getCenter();
+          setLocation(center);
+          console.log("center : ", center);
+        }
+      },
     });
     return null;
   };
@@ -179,6 +194,11 @@ export default function HomeMap({ searchBound }: Props) {
       },
     } as LeafletEventHandlerFnMap);
 
+  const handleBackIconOnClick = () => {
+    openDrawer.onFalse();
+    setClickId(null);
+  };
+
   return (
     <>
       <Map posix={position} zoom={zoomLevel}>
@@ -200,11 +220,26 @@ export default function HomeMap({ searchBound }: Props) {
                 ></Marker>
               ))}
             </MarkerClusterGroup>
+
+            {selectLocation && (
+              <>
+                <Image
+                  src="/assets/icon/click-pin.svg"
+                  alt="select icon"
+                  height={35}
+                  width={35}
+                  className="z-[2000] absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-12"
+                />
+              </>
+            )}
           </>
         )}
       </Map>
 
-      <DetailDrawer openDrawer={openDrawer} />
+      <DetailDrawer
+        openDrawer={openDrawer}
+        handleBackIconOnClick={handleBackIconOnClick}
+      />
     </>
   );
 }

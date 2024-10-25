@@ -6,5 +6,4 @@ export const endpoints = {
     toilet :{
         create:'/toilet/create'
     },
-    // test : 'local'
 }
