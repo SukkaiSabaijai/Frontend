@@ -3,31 +3,45 @@
 import ButtonIcon from "@/shared/components/button/button-icon";
 import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
+import Img from "@/shared/components/detail-drawer/detail_picture";
+import DetailCard from "@/shared/components/detail-drawer/detail_card";
+
 
 type Props = {
   openDrawer: UseBooleanReturn;
-  handleBackIconOnClick:()=>void
 };
 
-const DetailDrawer = ({ openDrawer,handleBackIconOnClick }: Props) => {
+const images = [
+  { src: "https://f.ptcdn.info/892/034/000/1440753623-72-o.jpg", text: "12 Level Building" },
+  { src: "https://f.ptcdn.info/893/034/000/1440754319-73-o.jpg", text: "12 Level Building" },
+  { src: "https://www.horonumber.com/upload/uppic/1414671588.jpg", text: "12 Level Building" },
+];
+
+const DetailDrawer = ({ openDrawer }: Props) => {
   return (
     <Drawer
       open={openDrawer.value}
       anchor="bottom"
       sx={{
         "& .MuiDrawer-paper": {
-          height: "40%",
+          height: "50%",
           width: "100%",
           zIndex: "1500",
           position: "fixed",
           borderRadius: "20px 20px 0 0",
           backgroundColor: "#DFECFF",
+          overflowY: "auto",
         },
       }}
     >
-      hi
+      <Img images={images} className="w-full h-auto">
+
+      </Img>
+      <DetailCard description="ecc building 1 ถ. ฉลองกรุง แขวงลำปลาทิว เขตลาดกระบัง กรุงเทพมหานคร 10520" latitude={37.7749} longitude={-122.4194} >
+
+      </DetailCard>
       <ButtonIcon
-        onClick={handleBackIconOnClick}
+        onClick={openDrawer.onFalse}
         width={30}
         height={41}
         alt="rest-icon"
