@@ -15,6 +15,7 @@ import { defaultValue, formSchema, FormValues } from "./form-validators";
 import { Form } from "@/shared/components/hook-form/form-provider";
 import Button from "@/shared/components/button/button";
 import CreateSuccessDrawer from "./create-success-drawer";
+import { createMarker } from "../_services/home.service";
 
 type Props = {
   openDrawer: UseBooleanReturn;
@@ -55,9 +56,41 @@ const CreateDrawer = ({
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log("data : ", data);
-    handleBackIconOnClick()
-    reset()
+    const newFormData = reformatFormData(data);
+    createMarker(newFormData);
+
+    handleBackIconOnClick();
+    reset();
     openCreateSuccessDrawer.onTrue();
+  };
+
+  const reformatFormData = (data: FormValues) => {
+    const formData = new FormData();
+    const type = "toilet";
+
+    formData.append("location_name", data.location_name);
+    formData.append("detail", data.detail);
+    formData.append("latitude", JSON.stringify(data.location.latitude));
+    formData.append("longitude", JSON.stringify(data.location.longitude));
+    formData.append("type", type);
+    formData.append("price", JSON.stringify(data.price));
+    data.image.forEach((file) => {
+      formData.append("img", file);
+    });
+
+    if (data.category.length === 1) {
+      formData.append("category[0]", data.category[0]);
+    } else {
+      data.category.forEach((cat) => {
+        formData.append("category", cat);
+      });
+    }
+    return formData;
+  };
+
+  const handleBackButton = () => {
+    handleBackIconOnClick();
+    reset();
   };
 
   return (
@@ -88,7 +121,7 @@ const CreateDrawer = ({
           <div className="w-full flex justify-between mt-5">
             <ButtonIcon
               type="button"
-              onClick={handleBackIconOnClick}
+              onClick={handleBackButton}
               width={30}
               height={41}
               alt="rest-icon"
