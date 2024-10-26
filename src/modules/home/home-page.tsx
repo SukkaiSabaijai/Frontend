@@ -69,8 +69,9 @@ const HomePage = () => {
   }
 
   useEffect(()=>{
-    console.log(filterRadiusLatlng)
-  },[filterRadiusLatlng])
+    // console.log(filterRadiusLatlng)
+    test();
+  },[])
 
   return (
     <>
