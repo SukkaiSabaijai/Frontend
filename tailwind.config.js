@@ -4,12 +4,26 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
-    // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/modules//*.{js,ts,jsx,tsx,mdx}",
+    "./src/shared//*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      /** ***********************************
+       * custom color here
+       *********************************** */
+      colors:{
+      transparent: 'transparent',
+      current: 'currentColor',
+      'custom-blue':'#87B7FF',
+      'custom-yellow':'#F7C146',
+      'custom-dark-blue':'#44AFC3',
+      'custom-light-blue' : '#DFECFF',
+      'custom-light-yellow' : '#FFE4AE',
+    }},
+    
+    
   },
   plugins: [],
 }
