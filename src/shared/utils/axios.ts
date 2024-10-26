@@ -4,7 +4,7 @@ import { enqueueSnackbar } from "notistack";
 
 // Create the Axios instance
 const instance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "http://localhost:5000",
   // Do not include withCredentials to prevent sending cookies
 });
 
