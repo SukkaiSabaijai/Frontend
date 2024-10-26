@@ -12,15 +12,9 @@ import { test } from "./_services/home.service";
 import CreateDrawer from "./create-drawer/create-drawer";
 import SelectLocation from "./create-drawer/select-location";
 import { FilterRadiusLatlngType } from "./_types/home.type";
+import HomeMap from "./home-map";
+import SearchDrawer from "./search-drawer/search-drawer";
 // import { test } from "./_services/home.service";
-
-const HomeMap = dynamic(() => import("./home-map"), {
-  ssr: false,
-});
-
-const SearchDrawer = dynamic(() => import("./search-drawer/search-drawer"), {
-  ssr: false,
-});
 
 const HomePage = () => {
   const openSearchDrawer = useBoolean(false);
