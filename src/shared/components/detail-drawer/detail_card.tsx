@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { useBoolean } from '@/shared/hooks/use-boolean';
 
 interface DetailCardProps {
   description: string;
@@ -31,9 +32,6 @@ const DetailCard: React.FC<DetailCardProps> = ({ description, latitude, longitud
   const womenEmoji = isWomen ? '👩' : '⚪';
   const disabledEmoji = isDisabled ? '♿' : '⚪';
 
-  const handleReviewClick = () => {
-    
-  };
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col items-center">
@@ -57,12 +55,6 @@ const DetailCard: React.FC<DetailCardProps> = ({ description, latitude, longitud
           </div>
         </div>
         <div>
-          <button 
-            className={cn('mt-4 p-2 bg-blue-500 text-white rounded-2xl hover:bg-white-600')}
-            // onClick={handleReviewClick}
-          >
-            Review
-          </button>
 
         </div>
       </div>
