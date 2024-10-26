@@ -1,6 +1,5 @@
 import Header from "@/shared/components/header/header";
 import Card from "@/shared/components/card/card"
-import axios from "axios"
 
 type Favorite = {
   image: string,

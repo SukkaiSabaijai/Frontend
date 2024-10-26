@@ -24,10 +24,7 @@ const Card = (props: CardProps) => {
                     }
                 </IconButton>
                 <span className="font-bold align-middle">{props.toilet_name}</span>
-                <IconButton sx={{ padding: 0 }}>
-                    <VerifiedIcon className="text-custom-yellow"/>
-                </IconButton>
-                
+                <VerifiedIcon className='text-custom-yellow m-1'/>
             </div>
         </div>
     )
