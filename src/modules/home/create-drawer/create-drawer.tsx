@@ -16,6 +16,7 @@ import { Form } from "@/shared/components/hook-form/form-provider";
 import Button from "@/shared/components/button/button";
 import CreateSuccessDrawer from "./create-success-drawer";
 import { createMarker } from "../_services/home.service";
+import { MarkerType } from "../_types/home.type";
 
 type Props = {
   openDrawer: UseBooleanReturn;
@@ -24,6 +25,7 @@ type Props = {
   location: LatLng | null;
   formValues: any;
   setFormValues: (values: any) => void;
+  mode: MarkerType;
 };
 
 const CreateDrawer = ({
@@ -33,6 +35,7 @@ const CreateDrawer = ({
   location,
   formValues,
   setFormValues,
+  mode,
 }: Props) => {
   const methods = useForm({
     defaultValues: defaultValue,
@@ -40,12 +43,7 @@ const CreateDrawer = ({
     mode: "onChange",
   });
 
-  const {
-    getValues,
-    setValue,
-    reset,
-    formState: { errors },
-  } = methods;
+  const { setValue, reset } = methods;
   const openCreateSuccessDrawer = useBoolean(false);
 
   useEffect(() => {
@@ -66,13 +64,12 @@ const CreateDrawer = ({
 
   const reformatFormData = (data: FormValues) => {
     const formData = new FormData();
-    const type = "toilet";
 
     formData.append("location_name", data.location_name);
     formData.append("detail", data.detail);
     formData.append("latitude", JSON.stringify(data.location.latitude));
     formData.append("longitude", JSON.stringify(data.location.longitude));
-    formData.append("type", type);
+    formData.append("type", mode);
     formData.append("price", JSON.stringify(data.price));
     data.image.forEach((file) => {
       formData.append("img", file);
@@ -117,6 +114,7 @@ const CreateDrawer = ({
             location={location}
             formValues={formValues}
             setFormValues={setFormValues}
+            mode={mode}
           />
           <div className="w-full flex justify-between mt-5">
             <ButtonIcon
@@ -130,8 +128,12 @@ const CreateDrawer = ({
             ></ButtonIcon>
 
             <button
-              className="bg-custom-blue
-        rounded-full p-1 w-14 h-14 flex justify-center items-center"
+              className={`${
+                mode == MarkerType.Toilet
+                  ? "bg-custom-blue"
+                  : "bg-custom-yellow"
+              }
+        rounded-full p-1 w-14 h-14 flex justify-center items-center`}
               style={{ pointerEvents: "auto" }}
               onClick={methods.handleSubmit(onSubmit)}
             >

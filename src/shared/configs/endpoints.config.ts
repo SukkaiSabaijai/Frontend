@@ -6,8 +6,8 @@ export const endpoints = {
   marker: {
     create: `/markers/create`,
     get: `/markers`,
-    getId: (id: string) => `/markers/${id}`,
-    delete: (id: string) => `/markers/${id}`,
+    getId: (id: number) => `/markers/${id}`,
+    delete: (id: number) => `/markers/${id}`,
   },
   user: {
     register: `/auth/signup`,
@@ -20,7 +20,7 @@ export const endpoints = {
   },
   reviews: {
     create: `/reviews/create`,
-    get: (markerId: string) => `/reviews/marker/${markerId}/reviews`,
+    get: (markerId: number) => `/reviews/marker/${markerId}/reviews`,
     delete: (markerId: string, Id: string) => `/reviews/delete/${markerId}/${Id}`,
   },
   bookmark: {

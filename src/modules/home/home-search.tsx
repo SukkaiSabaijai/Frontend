@@ -14,11 +14,12 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 
 type Props = {
   setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
+  handleSearchOnClick:()=>void
 };
 
 const libs: Library[] = ["places"];
 
-const HomeSearch = ({ setSearchBound }: Props) => {
+const HomeSearch = ({ setSearchBound,handleSearchOnClick }: Props) => {
   const [autocomplete, setAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null);
 
@@ -79,6 +80,7 @@ const HomeSearch = ({ setSearchBound }: Props) => {
         width={25}
         height={25}
         className="rounded-full h-14"
+        onClick={handleSearchOnClick}
       />
     </div>
   );

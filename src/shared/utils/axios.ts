@@ -5,13 +5,11 @@ import { enqueueSnackbar } from "notistack";
 // Create the Axios instance
 const instance: AxiosInstance = axios.create({
   baseURL: "http://localhost:5000",
-  // Do not include withCredentials to prevent sending cookies
 });
 
-// Add a request interceptor to add the access token to the Authorization header
 instance.interceptors.request.use(
   (config) => {
-    const accessToken = getAccessToken(); // Fetch token from cookies or storage
+    const accessToken = getAccessToken(); 
 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
