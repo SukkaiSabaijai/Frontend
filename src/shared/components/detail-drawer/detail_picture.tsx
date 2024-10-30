@@ -10,10 +10,6 @@ const Img = ({ images, className }: ImgProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isStarred, setIsStarred] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisliked, setIsDisliked] = useState(false);
-  const [likeCount, setLikeCount] = useState(10);
-  const [dislikeCount, setDislikeCount] = useState(10);
 
   const handleError = () => {
     console.error(`Failed to load image: ${images[currentIndex].src}`);
@@ -25,28 +21,6 @@ const Img = ({ images, className }: ImgProps) => {
 
   const toggleVerified = () => {
     setIsVerified((prev) => !prev);
-  };
-
-  const toggleLike = () => {
-    if (!isLiked) {
-      setLikeCount(likeCount + 1);
-      if (isDisliked) setDislikeCount(dislikeCount - 1);
-      setIsDisliked(false);
-    } else {
-      setLikeCount(likeCount - 1);
-    }
-    setIsLiked((prev) => !prev);
-  };
-
-  const toggleDislike = () => {
-    if (!isDisliked) {
-      setDislikeCount(dislikeCount + 1);
-      if (isLiked) setLikeCount(likeCount - 1);
-      setIsLiked(false);
-    } else {
-      setDislikeCount(dislikeCount - 1);
-    }
-    setIsDisliked((prev) => !prev);
   };
 
   const nextImage = () => {
@@ -67,13 +41,14 @@ const Img = ({ images, className }: ImgProps) => {
         onError={handleError}
         alt={images[currentIndex].text}
       />
-      <div className="absolute top-[5%] left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 p-2 rounded-2xl flex items-center">
+      <div className="text-l font-bold absolute top-[5%] left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 p-2 rounded-2xl flex items-center">
         <button
           className={cn("mr-2 hover:text-yellow-500 transition-colors", {
             "text-yellow-500": isStarred,
             "text-gray-400": !isStarred,
           })}
           onClick={toggleStar}
+          aria-label="Toggle star"
         >
           {isStarred ? '⚪' : '⭐'}
         </button>
@@ -81,35 +56,15 @@ const Img = ({ images, className }: ImgProps) => {
         <button
           className="flex items-center text-green-500 hover:text-green-400 transition-colors"
           onClick={toggleVerified}
+          aria-label="Toggle verified"
         >
           ✔️
-        </button>
-      </div>
-      <div className="absolute bottom-2 left-2">
-        <button
-          className={cn("text-blue-500 hover:text-blue-400 transition-transform duration-200", {
-            "scale-150": isLiked,
-            "scale-100": !isLiked,
-          })}
-          onClick={toggleLike}
-        >
-          👍 <span className="text-white">{likeCount}</span>
-        </button>
-      </div>
-      <div className="absolute bottom-2 right-2">
-        <button
-          className={cn("text-red-500 hover:text-red-400 transition-transform duration-200", {
-            "scale-150": isDisliked,
-            "scale-100": !isDisliked,
-          })}
-          onClick={toggleDislike}
-        >
-          👎 <span className="text-white">{dislikeCount}</span>
         </button>
       </div>
       <button
         className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2"
         onClick={previousImage}
+        aria-label="Previous image"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -120,6 +75,7 @@ const Img = ({ images, className }: ImgProps) => {
       <button
         className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2"
         onClick={nextImage}
+        aria-label="Next image"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -132,6 +88,7 @@ const Img = ({ images, className }: ImgProps) => {
 };
 
 export default Img;
+
 
 
 

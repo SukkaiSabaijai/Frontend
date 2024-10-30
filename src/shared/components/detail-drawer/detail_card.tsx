@@ -41,15 +41,15 @@ const DetailCard: React.FC<DetailCardProps> = ({ description, latitude, longitud
           </p>
         </div>
 
-        <div className={cn('max-w-sm', 'bg-white', 'border', 'border-gray-200', 'rounded-xl', 'shadow-md', 'overflow-hidden')}>
+        <div className={cn('text-xl','font-bold','max-w-sm', 'bg-custom-blue', 'border', 'border-gray-200', 'rounded-xl', 'shadow-md', 'overflow-hidden')}>
           <div className={cn('p-4')}>
-            <p className={cn('text-sm', 'text-gray-500', 'mt-2')}>{description}</p>
+            <p className={cn('text-sm', 'text-gray-500','text-white', 'mt-2')}>{description}</p>
           </div>
         </div>
 
-        <div className={cn('max-w-sm', 'bg-white', 'border', 'border-gray-200', 'rounded-2xl', 'shadow-md', 'overflow-hidden', 'mt-2')}>
+        <div className={cn('max-w-sm', 'bg-custom-blue', 'border', 'border-gray-200', 'rounded-2xl', 'shadow-md', 'overflow-hidden', 'mt-2')}>
           <div className={cn('p-4')}>
-            <p className={cn('text-sm', 'text-gray-500', 'mt-2')}>
+            <p className={cn('text-xl','font-bold','text-sm', 'text-gray-500', 'mt-2','text-white')}>
               {menEmoji} Men, {womenEmoji} Women, {disabledEmoji} Disabled
             </p>
           </div>
