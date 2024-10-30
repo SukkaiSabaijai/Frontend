@@ -1,5 +1,7 @@
+"use client";
+
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ImgProps {
   images: { src: string; text: string }[];
@@ -59,6 +61,10 @@ const Img = ({ images, className }: ImgProps) => {
     );
   };
 
+  useEffect(() => {
+    console.log("img : ", images[currentIndex].src);
+  }, [currentIndex]);
+
   return (
     <div className="relative inline-block">
       <img
@@ -75,7 +81,7 @@ const Img = ({ images, className }: ImgProps) => {
           })}
           onClick={toggleStar}
         >
-          {isStarred ? '⚪' : '⭐'}
+          {isStarred ? "⚪" : "⭐"}
         </button>
         <span className="mr-2">{images[currentIndex].text}</span>
         <button
@@ -87,10 +93,13 @@ const Img = ({ images, className }: ImgProps) => {
       </div>
       <div className="absolute bottom-2 left-2">
         <button
-          className={cn("text-blue-500 hover:text-blue-400 transition-transform duration-200", {
-            "scale-150": isLiked,
-            "scale-100": !isLiked,
-          })}
+          className={cn(
+            "text-blue-500 hover:text-blue-400 transition-transform duration-200",
+            {
+              "scale-150": isLiked,
+              "scale-100": !isLiked,
+            }
+          )}
           onClick={toggleLike}
         >
           👍 <span className="text-white">{likeCount}</span>
@@ -98,10 +107,13 @@ const Img = ({ images, className }: ImgProps) => {
       </div>
       <div className="absolute bottom-2 right-2">
         <button
-          className={cn("text-red-500 hover:text-red-400 transition-transform duration-200", {
-            "scale-150": isDisliked,
-            "scale-100": !isDisliked,
-          })}
+          className={cn(
+            "text-red-500 hover:text-red-400 transition-transform duration-200",
+            {
+              "scale-150": isDisliked,
+              "scale-100": !isDisliked,
+            }
+          )}
           onClick={toggleDislike}
         >
           👎 <span className="text-white">{dislikeCount}</span>
@@ -111,20 +123,68 @@ const Img = ({ images, className }: ImgProps) => {
         className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2"
         onClick={previousImage}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M12 8L8 12L12 16" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M16 12H8" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+            stroke="#598BD7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12 8L8 12L12 16"
+            stroke="#598BD7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M16 12H8"
+            stroke="#598BD7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
       <button
         className="absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2"
         onClick={nextImage}
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M12 16L16 12L12 8" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M8 12H16" stroke="#598BD7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+            stroke="#598BD7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M12 16L16 12L12 8"
+            stroke="#598BD7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M8 12H16"
+            stroke="#598BD7"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
     </div>
@@ -132,6 +192,3 @@ const Img = ({ images, className }: ImgProps) => {
 };
 
 export default Img;
-
-
-

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { MarkerType } from "@/modules/home/_types/home.type";
 import Image from "next/image";
 
 type Props = {
@@ -9,13 +10,27 @@ type Props = {
   height: number;
   alt: string;
   type?: "button" | "reset" | "submit";
+  mode?: MarkerType;
 };
 
-const ButtonIcon = ({ onClick, className, src, width, height, alt, type }: Props) => {
+const ButtonIcon = ({
+  onClick,
+  className,
+  src,
+  width,
+  height,
+  alt,
+  type,
+  mode,
+}: Props) => {
+  const style =
+    mode == MarkerType.Toilet
+      ? "bg-custom-light-blue active:bg-custom-light-yellow focus:bg-custom-light-blue"
+      : "bg-custom-light-yellow active:bg-custom-light-blue focus:bg-custom-light-yellow";
   return (
     <button
       className={cn(
-        "bg-custom-light-blue shadow-md shadow-slate-400 w-16 h-16 text-white text-2xl font-semibold rounded-2xl hover:bg-custom-light-yellow active:bg-custom-light-yellow focus:bg-custom-light-blue transition ease-in-out duration-300 flex justify-center items-center",
+        `${style} shadow-md shadow-slate-400 w-16 h-16 text-white text-2xl font-semibold rounded-2xl hover:bg-custom-light-yellow  transition ease-in-out duration-300 flex justify-center items-center`,
         className
       )}
       onClick={onClick}

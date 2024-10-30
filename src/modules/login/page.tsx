@@ -6,7 +6,7 @@ import { loginUser } from "./services/login.service";
 import { LoginCredentials, LoginResponse } from "./types/loginPage"; 
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState(''); 
+  const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false); 
@@ -16,7 +16,7 @@ const LoginPage: React.FC = () => {
     setLoading(true); 
 
     try {
-      const credentials: LoginCredentials = { email, password }; 
+      const credentials: LoginCredentials = { username, password }; 
       const response = await loginUser(credentials);
       console.log('Login successful:', response);
     } catch (error: any) {
@@ -37,12 +37,12 @@ const LoginPage: React.FC = () => {
 
         <div className="mb-8 w-full ">
           <input
-            type="email"
-            id="email"
+            type="username"
+            id="username"
             className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-md"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 

@@ -1,12 +1,61 @@
 import axios, { AxiosInstance } from "axios";
-
-// const token = "";
+import { enqueueSnackbar } from "notistack";
+import { clearTokens, getAccessToken, getRefreshToken, setAccessToken } from "../../lib/getAccessToken";
 
 const instance: AxiosInstance = axios.create({
-  baseURL: "http://api.toiletnearme.org/",
-  // headers: {
-  //   Authorization: `Bearer ${token}`, 
-  // },
+  baseURL: "http://localhost:5000",
 });
+
+async function refreshAccessToken() {
+  const refreshToken = getRefreshToken();
+
+  if (!refreshToken) return null;
+
+  try {
+    const response = await instance.get("/auth/refresh", {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+    const newAccessToken = response.data.accessToken;
+    setAccessToken(newAccessToken);
+    return newAccessToken;
+  } catch (error) {
+    clearTokens();
+    return null;
+  }
+}
+
+instance.interceptors.request.use(
+  (config) => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+instance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const newAccessToken = await refreshAccessToken();
+
+      if (newAccessToken) {
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return instance(originalRequest);
+      } else {
+        console.log("Session expired. Please log in again.");
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

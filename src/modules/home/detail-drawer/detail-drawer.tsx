@@ -5,10 +5,12 @@ import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
 import Img from "@/shared/components/detail-drawer/detail_picture";
 import DetailCard from "@/shared/components/detail-drawer/detail_card";
+import { MarkerDetailResp } from "../_types/home.type";
 
 type Props = {
   openDrawer: UseBooleanReturn;
   handleBackIconOnClick: () => void;
+  markerDetail: MarkerDetailResp | null;
 };
 
 const images = [
@@ -26,7 +28,11 @@ const images = [
   },
 ];
 
-const DetailDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
+const DetailDrawer = ({
+  openDrawer,
+  handleBackIconOnClick,
+  markerDetail,
+}: Props) => {
   return (
     <Drawer
       open={openDrawer.value}
@@ -43,12 +49,15 @@ const DetailDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
         },
       }}
     >
-      <Img images={images} className="w-full h-auto"></Img>
-      <DetailCard
-        description="ecc building 1 ถ. ฉลองกรุง แขวงลำปลาทิว เขตลาดกระบัง กรุงเทพมหานคร 10520"
-        latitude={37.7749}
-        longitude={-122.4194}
-      ></DetailCard>
+      {/* <Img images={images} className="w-full h-auto"></Img> */}
+      {markerDetail && (
+        <DetailCard
+          description="ecc building 1 ถ. ฉลองกรุง แขวงลำปลาทิว เขตลาดกระบัง กรุงเทพมหานคร 10520"
+          latitude={37.7749}
+          longitude={-122.4194}
+          markerDetail={markerDetail}
+        ></DetailCard>
+      )}
       <ButtonIcon
         onClick={handleBackIconOnClick}
         width={30}

@@ -13,7 +13,12 @@ import UserMarker from "@/shared/components/map/user-marker";
 import DetailDrawer from "./detail-drawer/detail-drawer";
 import { useBoolean, UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Image from "next/image";
-import { FilterRadiusLatlngType } from "./_types/home.type";
+import {
+  AllMarkerResp,
+  FilterRadiusLatlngType,
+  MarkerDetailResp,
+} from "./_types/home.type";
+import { getMarkerDetail } from "./_services/home.service";
 
 const pinIconUrl = "/assets/icon/location-pin.svg";
 const clickPinIconUrl = "/assets/icon/click-pin.svg";
@@ -101,6 +106,7 @@ type Props = {
   filterRadius: number | null;
   setFilterRadiusLatlng: Dispatch<SetStateAction<FilterRadiusLatlngType>>;
   flyToCurrentLocation: UseBooleanReturn;
+  allMarker: AllMarkerResp[] | undefined;
 };
 
 export default function HomeMap({
@@ -110,6 +116,7 @@ export default function HomeMap({
   filterRadius,
   setFilterRadiusLatlng,
   flyToCurrentLocation,
+  allMarker,
 }: Props) {
   const [userLocation, setUserLocation] =
     useState<LatLngTuple>(defaultPosition);
@@ -117,6 +124,9 @@ export default function HomeMap({
   const openDrawer = useBoolean(false);
   const [clickId, setClickId] = useState<number | null>(null);
   const previousBoundsRef = useRef<L.LatLngBounds | null>(null);
+  const [markerDetail, setMarkerDetail] = useState<MarkerDetailResp | null>(
+    null
+  );
 
   const Map = useMemo(
     () =>
@@ -240,10 +250,17 @@ export default function HomeMap({
             duration: 1.5,
           });
         }
+        fetchMarkerDetail(id);
         openDrawer.onTrue();
         setClickId(id);
       },
     } as LeafletEventHandlerFnMap);
+
+  const fetchMarkerDetail = async (id: number) => {
+    const markerDetail = await getMarkerDetail(id);
+
+    setMarkerDetail(markerDetail);
+  };
 
   const handleBackIconOnClick = () => {
     openDrawer.onFalse();
@@ -255,18 +272,18 @@ export default function HomeMap({
       <Map posix={userLocation} zoom={zoomLevel}>
         <MapEvents />
 
-        {zoomLevel >= 11 && (
+        {zoomLevel >= 11 && allMarker && (
           <>
             <UserMarker position={userLocation} />
             <MarkerClusterGroup maxClusterRadius={50}>
-              {locations.map((location) => (
+              {allMarker.map((marker) => (
                 <Marker
-                  key={location.id}
-                  position={location.position as LatLngTuple}
-                  icon={location.id == clickId ? clickPinIcon : pinIcon}
+                  key={marker.id}
+                  position={[marker.latitude, marker.longitude] as LatLngTuple}
+                  icon={marker.id == clickId ? clickPinIcon : pinIcon}
                   eventHandlers={handleMarkerClicked(
-                    location.position as LatLngTuple,
-                    location.id
+                    [marker.latitude, marker.longitude] as LatLngTuple,
+                    marker.id
                   )}
                 ></Marker>
               ))}
@@ -290,6 +307,7 @@ export default function HomeMap({
       <DetailDrawer
         openDrawer={openDrawer}
         handleBackIconOnClick={handleBackIconOnClick}
+        markerDetail={markerDetail}
       />
     </>
   );
