@@ -40,6 +40,7 @@ export type AllMarkerType = {
 };
 
 export type MarkerDetailResp = {
+  id: number;
   latitude: number;
   longitude: number;
   avg_rating: number;
@@ -67,3 +68,22 @@ export const categoriesMap: Record<MarkerType, string[]> = {
   [MarkerType.Toilet]: ["disable", "flush", "hose"],
   [MarkerType.REST_AREA]: ["charger", "table", "wifi"],
 };
+
+export type AllReviewResp={
+  markerId:number
+  avgRating:number
+  reviewCount:number
+  reviews:ReviewDetail[]
+  }
+  
+  type ReviewDetail={
+  username:string
+  userPic:string
+  rating:number
+  review:string
+  }
+export type CreateReviewParams={
+  markerId:string;
+  rating:string;
+  review:string;
+}

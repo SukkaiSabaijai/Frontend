@@ -6,9 +6,10 @@ import { useEffect, useState } from "react";
 interface ImgProps {
   images: { src: string; text: string }[];
   className?: string;
+  addBookmark:() => void 
 }
 
-const Img = ({ images, className }: ImgProps) => {
+const Img = ({ images, className, addBookmark }: ImgProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isStarred, setIsStarred] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
@@ -23,33 +24,13 @@ const Img = ({ images, className }: ImgProps) => {
 
   const toggleStar = () => {
     setIsStarred((prev) => !prev);
+    addBookmark()
   };
 
   const toggleVerified = () => {
     setIsVerified((prev) => !prev);
   };
 
-  const toggleLike = () => {
-    if (!isLiked) {
-      setLikeCount(likeCount + 1);
-      if (isDisliked) setDislikeCount(dislikeCount - 1);
-      setIsDisliked(false);
-    } else {
-      setLikeCount(likeCount - 1);
-    }
-    setIsLiked((prev) => !prev);
-  };
-
-  const toggleDislike = () => {
-    if (!isDisliked) {
-      setDislikeCount(dislikeCount + 1);
-      if (isLiked) setLikeCount(likeCount - 1);
-      setIsLiked(false);
-    } else {
-      setDislikeCount(dislikeCount - 1);
-    }
-    setIsDisliked((prev) => !prev);
-  };
 
   const nextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -69,55 +50,23 @@ const Img = ({ images, className }: ImgProps) => {
     <div className="relative inline-block">
       <img
         src={images[currentIndex].src}
-        className={cn("rounded-lg shadow-lg object-cover", className)}
+        className={cn("rounded-lg shadow-lg w-full h-auto", className)}
         onError={handleError}
         alt={images[currentIndex].text}
       />
-      <div className="absolute top-[5%] left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 p-2 rounded-2xl flex items-center">
+      <div className="absolute top-[5%] left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 p-2 rounded-2xl flex items-center text-2xl font-superbold">
         <button
-          className={cn("mr-2 hover:text-yellow-500 transition-colors", {
+          className={cn("mr-2 hover:text-yellow-500 transition-colors ", {
             "text-yellow-500": isStarred,
             "text-gray-400": !isStarred,
           })}
           onClick={toggleStar}
         >
-          {isStarred ? "⚪" : "⭐"}
+          {isStarred ? <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 1L10.8175 5.695L16 6.4525L12.25 10.105L13.135 15.265L8.5 12.8275L3.865 15.265L4.75 10.105L1 6.4525L6.1825 5.695L8.5 1Z" stroke="#598BD7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          : 
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 1L10.8175 5.695L16 6.4525L12.25 10.105L13.135 15.265L8.5 12.8275L3.865 15.265L4.75 10.105L1 6.4525L6.1825 5.695L8.5 1Z" fill="#F2A800" stroke="#F2A800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>}
         </button>
         <span className="mr-2">{images[currentIndex].text}</span>
-        <button
-          className="flex items-center text-green-500 hover:text-green-400 transition-colors"
-          onClick={toggleVerified}
-        >
-          ✔️
-        </button>
-      </div>
-      <div className="absolute bottom-2 left-2">
-        <button
-          className={cn(
-            "text-blue-500 hover:text-blue-400 transition-transform duration-200",
-            {
-              "scale-150": isLiked,
-              "scale-100": !isLiked,
-            }
-          )}
-          onClick={toggleLike}
-        >
-          👍 <span className="text-white">{likeCount}</span>
-        </button>
-      </div>
-      <div className="absolute bottom-2 right-2">
-        <button
-          className={cn(
-            "text-red-500 hover:text-red-400 transition-transform duration-200",
-            {
-              "scale-150": isDisliked,
-              "scale-100": !isDisliked,
-            }
-          )}
-          onClick={toggleDislike}
-        >
-          👎 <span className="text-white">{dislikeCount}</span>
-        </button>
       </div>
       <button
         className="absolute left-2 top-1/2 transform -translate-y-1/2 text-white px-4 py-2"
