@@ -6,6 +6,7 @@ import { SubmitHandler, useForm, useFormContext } from "react-hook-form";
 import { RHFTextField } from "@/shared/components/hook-form/rhf-text-field";
 import RHFSelect from "@/shared/components/hook-form/rhf-select";
 import Image from "next/image";
+import { MarkerType } from "../_types/home.type";
 
 type Props = {
   openDrawer: UseBooleanReturn;
@@ -13,6 +14,7 @@ type Props = {
   location: LatLng | null;
   formValues: any;
   setFormValues: (values: any) => void;
+  mode: MarkerType;
 };
 
 const CreateForm = ({
@@ -20,7 +22,14 @@ const CreateForm = ({
   selectLocation,
   location,
   setFormValues,
+  mode,
 }: Props) => {
+  const title =
+    mode == MarkerType.Toilet ? "ลงทะเบียนห้องสุขา" : "ลงทะเบียนจุดนั่งพัก";
+  const imgTitle =
+    mode == MarkerType.Toilet
+      ? "รูปภาพห้องสุขา (ไม่เกิน 5 รูปภาพ)"
+      : "รูปภาพจุดนั่งพัก (ไม่เกิน 5 รูปภาพ)";
   const { getValues, setValue } = useFormContext();
   const locationTitle = location
     ? `${location?.lat.toFixed(4)},${location?.lng.toFixed(4)}`
@@ -48,15 +57,19 @@ const CreateForm = ({
   return (
     <>
       <div className="flex flex-col gap-4">
-        <h1 className="font-bold text-2xl">ลงทะเบียนห้องสุขา</h1>
+        <h1 className="font-bold text-2xl">{title}</h1>
         <RHFTextField
           label="ชื่อสถานที่"
           placeholder="เช่น ตึกecc"
           name="location_name"
         />
         <RHFTextField
-          label="รายละเอียดห้องสุขา"
-          placeholder="เช่น ห้องน้ำแสงสวย"
+          label={`รายละเอียด${
+            mode == MarkerType.Toilet ? "ห้องสุขา" : "จุดนั่งพัก"
+          }`}
+          placeholder={`เช่น ${
+            mode == MarkerType.Toilet ? "ห้องน้ำแสงสวย" : "จุดนี้ร่มรื่น"
+          }`}
           name="detail"
         />
 
@@ -79,17 +92,15 @@ const CreateForm = ({
           />
         </div>
 
-        <RHFSelect name="category" />
+        <RHFSelect name="category" mode={mode} />
 
         <div className="flex flex-col gap-3 ">
           <h1 className="text-[14px] font-semibold">
-            รูปภาพห้องสุขา (ไม่เกิน 5 รูปภาพ)
+            {imgTitle }
           </h1>
-          <UploadImage />
+          <UploadImage mode={mode} />
         </div>
       </div>
-
-      
     </>
   );
 };

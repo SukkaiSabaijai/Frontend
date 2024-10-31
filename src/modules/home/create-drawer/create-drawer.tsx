@@ -15,6 +15,8 @@ import { defaultValue, formSchema, FormValues } from "./form-validators";
 import { Form } from "@/shared/components/hook-form/form-provider";
 import Button from "@/shared/components/button/button";
 import CreateSuccessDrawer from "./create-success-drawer";
+import { createMarker } from "../_services/home.service";
+import { MarkerType } from "../_types/home.type";
 
 type Props = {
   openDrawer: UseBooleanReturn;
@@ -23,6 +25,7 @@ type Props = {
   location: LatLng | null;
   formValues: any;
   setFormValues: (values: any) => void;
+  mode: MarkerType;
 };
 
 const CreateDrawer = ({
@@ -32,6 +35,7 @@ const CreateDrawer = ({
   location,
   formValues,
   setFormValues,
+  mode,
 }: Props) => {
   const methods = useForm({
     defaultValues: defaultValue,
@@ -39,12 +43,7 @@ const CreateDrawer = ({
     mode: "onChange",
   });
 
-  const {
-    getValues,
-    setValue,
-    reset,
-    formState: { errors },
-  } = methods;
+  const { setValue, reset } = methods;
   const openCreateSuccessDrawer = useBoolean(false);
 
   useEffect(() => {
@@ -55,9 +54,40 @@ const CreateDrawer = ({
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log("data : ", data);
-    handleBackIconOnClick()
-    reset()
+    const newFormData = reformatFormData(data);
+    createMarker(newFormData);
+
+    handleBackIconOnClick();
+    reset();
     openCreateSuccessDrawer.onTrue();
+  };
+
+  const reformatFormData = (data: FormValues) => {
+    const formData = new FormData();
+
+    formData.append("location_name", data.location_name);
+    formData.append("detail", data.detail);
+    formData.append("latitude", JSON.stringify(data.location.latitude));
+    formData.append("longitude", JSON.stringify(data.location.longitude));
+    formData.append("type", mode);
+    formData.append("price", JSON.stringify(data.price));
+    data.image.forEach((file) => {
+      formData.append("img", file);
+    });
+
+    if (data.category.length === 1) {
+      formData.append("category[0]", data.category[0]);
+    } else {
+      data.category.forEach((cat) => {
+        formData.append("category", cat);
+      });
+    }
+    return formData;
+  };
+
+  const handleBackButton = () => {
+    handleBackIconOnClick();
+    reset();
   };
 
   return (
@@ -84,11 +114,12 @@ const CreateDrawer = ({
             location={location}
             formValues={formValues}
             setFormValues={setFormValues}
+            mode={mode}
           />
           <div className="w-full flex justify-between mt-5">
             <ButtonIcon
               type="button"
-              onClick={handleBackIconOnClick}
+              onClick={handleBackButton}
               width={30}
               height={41}
               alt="rest-icon"
@@ -97,8 +128,12 @@ const CreateDrawer = ({
             ></ButtonIcon>
 
             <button
-              className="bg-custom-blue
-        rounded-full p-1 w-14 h-14 flex justify-center items-center"
+              className={`${
+                mode == MarkerType.Toilet
+                  ? "bg-custom-blue"
+                  : "bg-custom-yellow"
+              }
+        rounded-full p-1 w-14 h-14 flex justify-center items-center`}
               style={{ pointerEvents: "auto" }}
               onClick={methods.handleSubmit(onSubmit)}
             >

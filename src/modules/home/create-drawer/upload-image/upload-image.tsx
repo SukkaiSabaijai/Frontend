@@ -4,8 +4,13 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 import PreviewImage from "./preview-image";
+import { MarkerType } from "../../_types/home.type";
 
-const UploadImage = () => {
+type Props = {
+  mode: MarkerType;
+};
+
+const UploadImage = ({ mode }: Props) => {
   const {
     watch,
     setValue,
@@ -15,6 +20,10 @@ const UploadImage = () => {
   const [image, setImage] = useState<File[]>([]);
   const [preview, setPreview] = useState<string[]>([]);
   const currentImg = watch("image");
+  const imgSrc =
+    mode == MarkerType.Toilet
+      ? "/assets/image/upload-image.png"
+      : "/assets/image/upload-image-yellow.png";
 
   const handleImageUpload = ({
     target,
@@ -64,17 +73,22 @@ const UploadImage = () => {
     <div>
       <div className="flex flex-col gap-4">
         <label
-          className="w-full h-36 rounded-lg border-2 border-dashed border-custom-blue flex flex-col items-center justify-center gap-2"
+          className={`w-full h-36 rounded-lg border-2 border-dashed ${
+            mode == MarkerType.Toilet
+              ? "border-custom-blue"
+              : "border-custom-yellow"
+          } flex flex-col items-center justify-center gap-2`}
           id="upload-label"
           htmlFor="upload-image"
         >
-          <Image
-            src="/assets/image/upload_image.png"
-            alt="camera"
-            width={48}
-            height={48}
-          />
-          <h1 className="font-semibold text-xl text-custom-blue">
+          <Image src={imgSrc} alt="camera" width={48} height={48} />
+          <h1
+            className={`font-semibold text-xl ${
+              mode == MarkerType.Toilet
+                ? "text-custom-blue"
+                : "text-custom-yellow"
+            }`}
+          >
             เพิ่มรูปภาพ
           </h1>
         </label>
