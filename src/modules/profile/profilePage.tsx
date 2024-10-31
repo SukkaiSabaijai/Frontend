@@ -23,8 +23,10 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [username, setUsername] = useState("Guest"); 
-  const [profilePicture, setProfilePic] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg")
+  const [username, setUsername] = useState("Guest");
+  const [profilePicture, setProfilePic] = useState(
+    "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
+  );
 
   useEffect(() => {
     const token = getAccessToken();
@@ -35,7 +37,9 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
         .then((profile) => {
           setUsername(profile.username);
           if (profile.user_pic) {
-            setProfilePic("https://api.toiletnearme.org/image/" + profile.user_pic);
+            setProfilePic(
+              "https://api.toiletnearme.org/image/" + profile.user_pic
+            );
           }
         })
         .catch((error) => console.error(error));
@@ -59,6 +63,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const handleHistoryOnClick = () => {
     if (isLoggedIn) {
       console.log("hi");
+      console.log("active : ", activeTab);
       if (activeTab === "add") {
         router.replace("/marker-history");
       } else if (activeTab === "review") {
@@ -160,7 +165,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
                       handleProfileOnClick();
                     } else if (item.name === "History") {
                       setIsHistoryOpen(!isHistoryOpen);
-                      setActiveTab("History");
+                      // setActiveTab("History");
                     } else if (item.name === "Log out") {
                       handleLogout();
                     } else if (item.name === "Sign In / Sign Up") {
@@ -193,7 +198,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
             ))}
           </ul>
         </div>
-        
+
         <div className="absolute bottom-16 left-0 mb-4 ml-4">
           <ButtonIcon
             type="button"
@@ -202,7 +207,11 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
             height={41}
             alt="rest-icon"
             mode={mode}
-            src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
+            src={
+              mode == MarkerType.Toilet
+                ? "/assets/icon/back-to-toilet-real.svg"
+                : "/assets/icon/back.svg"
+            }
           ></ButtonIcon>
         </div>
       </div>
