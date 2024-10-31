@@ -19,16 +19,16 @@ type Props = {
   openDrawer: UseBooleanReturn;
   setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
   setRadius: Dispatch<SetStateAction<number | null>>;
-  setFilterCategory:Dispatch<SetStateAction<string[]>>
-  setFilterPrice:Dispatch<SetStateAction<string|null>>
-  setFilterRating:Dispatch<SetStateAction<number>>
+  setFilterCategory: Dispatch<SetStateAction<string[]>>;
+  setFilterPrice: Dispatch<SetStateAction<string | null>>;
+  setFilterRating: Dispatch<SetStateAction<number>>;
   filterRadiusLatlng: FilterRadiusLatlngType;
-  filterRating:number
-  filterRadius:number | null
+  filterRating: number;
+  filterRadius: number | null;
   mode: MarkerType;
-  handleSearchOnClick:()=>void
-  categoryList:string[]
-  filterPrice:string | null
+  handleSearchOnClick: () => void;
+  categoryList: string[];
+  filterPrice: string | null;
 };
 
 const SearchDrawer = ({
@@ -44,12 +44,11 @@ const SearchDrawer = ({
   mode,
   categoryList,
   handleSearchOnClick,
-  filterPrice
+  filterPrice,
 }: Props) => {
   // const [filterCategory, setFilterCategory] = useState<string[]>([]);
   // const [filterPrice, setFilterPrice] = useState<string | null>(null);
   // const [filterRating, setFilterRating] = useState<number>(0);
-
 
   const handleBackButton = () => {
     /**
@@ -97,17 +96,26 @@ const SearchDrawer = ({
       <div
         style={{
           display: "flex",
-          justifyContent: "flex-start",
+          justifyContent: "space-between", // Use space-between to position icons on left and right
           marginTop: "auto",
+          width: "100%", // Ensure the div takes the full width
         }}
       >
         <ButtonIcon
           onClick={openDrawer.onFalse}
           width={30}
           height={41}
+          mode={mode}
           alt="rest-icon"
-          src="/assets/icon/back.svg"
-          className="bg-custom-light-yellow"
+          src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
+        />
+        <ButtonIcon
+          src={mode == MarkerType.Toilet ? "/assets/icon/search.svg"  :"/assets/icon/search-yellow.svg"}
+          alt="search-icon"
+          width={30}
+          height={41}
+          mode={mode}
+          onClick={handleSearchOnClick}
         />
       </div>
     </Drawer>

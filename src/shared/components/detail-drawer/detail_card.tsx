@@ -73,7 +73,7 @@ const DetailCard: React.FC<DetailCardProps> = ({ markerDetail }) => {
   const images =
     markerDetail.img &&
     markerDetail.img.map((path) => ({
-      src: "http://localhost:5000/image/" + path,
+      src: "https://api.toiletnearme.org/image/" + path,
       text: markerDetail.location_name,
     }));
   const addBookmark = async () => {
@@ -89,7 +89,7 @@ const DetailCard: React.FC<DetailCardProps> = ({ markerDetail }) => {
       <Img
         addBookmark={addBookmark}
         images={images}
-        className="w-full h-[300px]"
+        className="relative w-full"
         isBookmark={markerDetail.isBookMark}
       ></Img>
 
@@ -111,8 +111,8 @@ const DetailCard: React.FC<DetailCardProps> = ({ markerDetail }) => {
               "overflow-hidden"
             )}
           >
-            <div className={cn("p-3")}>
-              <p className={cn("text-l", "text-white", "mt-2")}>
+            <div className="p-4">
+              <p className="text-xl text-white">
                 {markerDetail.detail}
               </p>
             </div>

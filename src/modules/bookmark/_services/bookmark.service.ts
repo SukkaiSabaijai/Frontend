@@ -32,7 +32,7 @@ export const updateBookmark = async (id: number, formData: FormData) => {
   return data
 }
 
-export const getBookmarkMarkerDetail = async (id: number) => {
+export const getMarkerDetail = async (id: number) => {
   const { data } = await Axios.get(endpoints.marker.getId(id));
   console.log(data)
   return data

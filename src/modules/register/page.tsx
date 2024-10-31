@@ -46,7 +46,7 @@ const RegisterPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
-      <h1 className="text-4xl font-bold text-center bg-custom-blue text-white w-full py-20 mb-8 rounded-b-[15px]">
+      <h1 className="text-4xl font-bold text-center bg-custom-blue text-white w-full py-20 mb-8 rounded-b-[15px]  cursor-pointer" onClick={() => (window.location.href = "/")}>
         Toilet Near Me🚽
       </h1>
 

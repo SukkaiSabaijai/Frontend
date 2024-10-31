@@ -21,7 +21,7 @@ type Props = {
   handleBackIconOnClick: () => void;
   markerDetail: MarkerDetailResp | null;
   mode: MarkerType;
-  fetchMarkerDetail: (id: number) => void;
+  fetchMarkerDetail?: (id: number) => void;
 };
 
 // const images = [
@@ -66,7 +66,7 @@ const DetailDrawer = ({
   };
 
   const handleBackOnclick = () => {
-    if (markerDetail) {
+    if (markerDetail && fetchMarkerDetail) {
       fetchMarkerDetail(markerDetail.id);
     }
     openDrawer.onTrue();
@@ -134,8 +134,9 @@ const DetailDrawer = ({
           width={30}
           height={41}
           alt="rest-icon"
-          src={backSrc}
-          className={`${bgBackDrawer} fixed bottom-5 left-5 z-50`}
+          mode={mode}
+          src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
+          className = {`fixed bottom-5 left-5 z-50`}
         ></ButtonIcon>
       </Drawer>
       {markerReview && (

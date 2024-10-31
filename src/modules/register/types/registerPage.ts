@@ -2,7 +2,7 @@ export interface RegisterCredentials {
   email: string;
   username: string;
   gender?: string;
-  date_of_birth?: Date;
+  date_of_birth?: string;
   password: string;
   confirmPassword: string;
 }

@@ -23,10 +23,8 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [username, setUsername] = useState("Sam");
-  const [profilePicture, setProfilePic] = useState(
-    "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
-  );
+  const [username, setUsername] = useState("Guest"); 
+  const [profilePicture, setProfilePic] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg")
 
   useEffect(() => {
     const token = getAccessToken();
@@ -37,7 +35,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
         .then((profile) => {
           setUsername(profile.username);
           if (profile.user_pic) {
-            setProfilePic("http://localhost:5001/image/" + profile.user_pic);
+            setProfilePic("https://api.toiletnearme.org/image/" + profile.user_pic);
           }
         })
         .catch((error) => console.error(error));
@@ -124,7 +122,6 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
           width: "100%",
           zIndex: 1500,
           position: "fixed",
-          borderRadius: "20px 20px 0 0",
           backgroundColor: bgDrawer,
           overflowY: "auto",
         },
@@ -196,16 +193,16 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
             ))}
           </ul>
         </div>
-
-        <div className="absolute bottom-32 left-4">
+        
+        <div className="absolute bottom-16 left-0 mb-4 ml-4">
           <ButtonIcon
             type="button"
             onClick={handleBackIconOnClick}
             width={30}
             height={41}
             alt="rest-icon"
-            src="/assets/icon/back.svg"
-            className="bg-custom-light-yellow"
+            mode={mode}
+            src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
           ></ButtonIcon>
         </div>
       </div>

@@ -151,7 +151,7 @@ const ReviewForm = ({
           onClick={() => {
             setIsFloating(true), setIsButtonVisible(false);
           }}
-          className={`p-2 ${bgButton} text-white rounded-full fixed bottom-5 right-5 hover:bg-custom-yellow z-50`}
+          className={`p-4 ${bgButton} text-white rounded-full fixed bottom-5 right-5 hover:bg-custom-yellow z-50 font-bold text-xl`}
         >
           Add Review
         </button>

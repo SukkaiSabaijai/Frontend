@@ -5,8 +5,7 @@ import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
 import ReviewForm from "@/shared/components/review-drawer/review-form";
 import { AllMarkerResp, AllReviewResp, MarkerType } from "../_types/home.type";
-
-
+import { Handlee } from "next/font/google";
 
 type Props = {
     openDrawer: UseBooleanReturn;
@@ -38,15 +37,16 @@ type Props = {
       >
         <ReviewForm markerReview={markerReview} updateReview={updateReview} mode={mode} locationName={locationName}/>
         <ButtonIcon
-        onClick={handleBackOnClick}
-        width={30}
-        height={41}
-        alt="rest-icon"
-        src="/assets/icon/back.svg"
-        className="bg-custom-light-yellow fixed bottom-5 left-5 z-50"
-      ></ButtonIcon>
-      </Drawer>
-    );
-  };
-  
-  export default ReviewDrawer;
+          onClick={handleBackOnClick}
+          width={30}
+          height={41}
+          alt="rest-icon"
+          mode={mode}
+          src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
+          className = {`fixed bottom-5 left-5 z-50`}
+        ></ButtonIcon>
+    </Drawer>
+  );
+};
+
+export default ReviewDrawer;
