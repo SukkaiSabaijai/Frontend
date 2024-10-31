@@ -90,7 +90,7 @@ const DetailCard: React.FC<DetailCardProps> = ({
       <Img
         addBookmark={addBookmark}
         images={images}
-        className="w-full h-[300px]"
+        className="relative w-full"
       ></Img>
 
       <div className="flex justify-center items-center h-screen">
@@ -111,8 +111,8 @@ const DetailCard: React.FC<DetailCardProps> = ({
               "overflow-hidden"
             )}
           >
-            <div className={cn("p-3")}>
-              <p className={cn("text-l", "text-white", "mt-2")}>
+            <div className="p-4">
+              <p className="text-xl text-white">
                 {markerDetail.detail}
               </p>
             </div>
