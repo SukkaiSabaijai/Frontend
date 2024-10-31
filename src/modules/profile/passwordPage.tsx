@@ -64,7 +64,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div className="h-[100vh] w-full relative overflow-hidden">
-      <div className="flex items-center justify-between bg-custom-blue text-white w-full py-16 px-8 rounded-b-[15px]">
+      <div className="flex items-center justify-between bg-custom-light-green text-white w-full py-16 px-8 rounded-b-[15px]">
         <h1 className="text-4xl font-bold">Hello, {username}!</h1>
         <div className="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
           <img
@@ -125,7 +125,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         <button
-          className="w-80 p-4 text-lg bg-custom-blue text-white rounded-lg"
+          className="w-80 p-4 text-lg bg-custom-light-green text-white rounded-lg"
           onClick={handlePasswordUpdate}
         >
           Update
@@ -138,8 +138,8 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
           width={30}
           height={41}
           alt="rest-icon"
-          src="/assets/icon/back.svg"
-          className="bg-custom-light-yellow"
+          src="/assets/icon/back-icon-yellow.svg"
+          className="bg-custom-light-green"
         />
       </div>
     </div>

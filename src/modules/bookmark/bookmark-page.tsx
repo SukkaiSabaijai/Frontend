@@ -4,8 +4,7 @@ import Header from "@/shared/components/header/header";
 import Card from "@/shared/components/card/card";
 import { useEffect, useState } from "react";
 import { getBookmark } from "./_services/bookmark.service";
-import { BookmarkResp } from "./_types/bookmark.type";
-
+import { BookmarkResp, MarkerType } from "./_types/bookmark.type";
 
 const BookmarkPage = () => {
   const [bookMarks, setBookMarks] = useState<BookmarkResp[]>()
@@ -23,7 +22,7 @@ const fetchBookMark = async () => {
   }, [bookMarks]);
   return (
     <>
-      <div className="bg-custom-light-blue h-lvh">
+      <div className="h-lvh">
         <Header title="Bookmark" />
         <div className="flex justify-center items-center mt-10 flex-col">
           {bookMarks&&bookMarks.map(

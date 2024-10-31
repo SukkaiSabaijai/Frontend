@@ -17,16 +17,24 @@ async function refreshAccessToken() {
   if (!refreshToken) return null;
 
   try {
-    const response = await instance.get("/auth/refresh", {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    });
+    const response = await axios.get(
+      process.env.NEXT_PUBLIC_BASE_URL + "/auth/refresh",
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      }
+    );
     const newAccessToken = response.data.accessToken;
     setAccessToken(newAccessToken);
     return newAccessToken;
   } catch (error) {
     console.log("Can not refresh.");
+    enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+      variant: "error",
+      autoHideDuration: 3000,
+      anchorOrigin: { vertical: "top", horizontal: "left" },
+    });
     clearTokens();
     return null;
   }
@@ -40,7 +48,14 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    Promise.reject(error);
+    enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+      variant: "error",
+      autoHideDuration: 3000,
+      anchorOrigin: { vertical: "top", horizontal: "left" },
+    });
+  }
 );
 
 instance.interceptors.response.use(
