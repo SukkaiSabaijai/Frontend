@@ -50,7 +50,7 @@ type Props = {
   setFilterRadiusLatlng: Dispatch<SetStateAction<FilterRadiusLatlngType>>;
   flyToCurrentLocation: UseBooleanReturn;
   allMarker: AllMarkerResp[] | undefined;
-  mode:MarkerType
+  mode: MarkerType;
 };
 
 export default function HomeMap({
@@ -61,7 +61,7 @@ export default function HomeMap({
   setFilterRadiusLatlng,
   flyToCurrentLocation,
   allMarker,
-  mode
+  mode,
 }: Props) {
   const [userLocation, setUserLocation] =
     useState<LatLngTuple>(defaultPosition);
@@ -225,7 +225,15 @@ export default function HomeMap({
                 <Marker
                   key={marker.id}
                   position={[marker.latitude, marker.longitude] as LatLngTuple}
-                  icon={marker.id == clickId ? clickPinIcon : pinIcon}
+                  icon={
+                    marker.id == clickId
+                      ? mode == MarkerType.Toilet
+                        ? clickPinIcon
+                        : pinIcon
+                      : mode == MarkerType.Toilet
+                      ? pinIcon
+                      : clickPinIcon
+                  }
                   eventHandlers={handleMarkerClicked(
                     [marker.latitude, marker.longitude] as LatLngTuple,
                     marker.id
@@ -254,7 +262,7 @@ export default function HomeMap({
         handleBackIconOnClick={handleBackIconOnClick}
         markerDetail={markerDetail}
         mode={mode}
-        fetchMarkerDetail = {fetchMarkerDetail}
+        fetchMarkerDetail={fetchMarkerDetail}
       />
     </>
   );
