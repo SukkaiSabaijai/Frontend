@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import Select from "../select/select";
 import { categoriesMap, MarkerType } from "@/modules/home/_types/home.type";
+import CreateSelect from "../select/select-create";
 
 type Props = {
   name: string;
@@ -34,8 +35,9 @@ const RHFSelect = ({ name, mode }: Props) => {
           mode == MarkerType.Toilet ? "bg-custom-blue" : "bg-custom-yellow"
         } flex justify-center items-center rounded-3xl gap-6`}
       >
-        {categories.map((category) => (
-          <Select
+        {categories.map((category, index) => (
+          <CreateSelect
+            key={index}
             label={category}
             setCategoryList={setCategoryList}
             mode={mode}

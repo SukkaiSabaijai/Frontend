@@ -55,14 +55,16 @@ const CreateDrawer = ({
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     console.log("data : ", data);
     const newFormData = reformatFormData(data);
-    createMarker(newFormData);
-
-    handleBackIconOnClick();
-    reset();
-    openCreateSuccessDrawer.onTrue();
+    const createStatus = await createMarker(newFormData);
+    if (createStatus == "success") {
+      handleBackIconOnClick();
+      reset();
+      openCreateSuccessDrawer.onTrue();
+    }
   };
 
   const reformatFormData = (data: FormValues) => {
+    console.log('mode : ',mode)
     const formData = new FormData();
 
     formData.append("location_name", data.location_name);

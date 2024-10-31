@@ -40,6 +40,9 @@ const HomeButton = ({
       ? "/assets/icon/profile.svg"
       : "/assets/icon/profile-yellow.svg";
 
+  const searchTitle =
+    mode == MarkerType.Toilet ? "Search For Toilet" : "Search For Seat";
+
   useEffect(() => {
     console.log(openSearchDrawer.value);
   }, [openSearchDrawer.value]);
@@ -92,7 +95,7 @@ const HomeButton = ({
           }`}
           onClick={handleClickSearch}
         >
-          Search For Toilet
+          {searchTitle}
         </Button>
       </div>
     </>

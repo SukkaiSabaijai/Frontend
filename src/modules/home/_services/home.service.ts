@@ -18,7 +18,7 @@ export const createMarker = async (formData: FormData) => {
   const { data } = await Axios.post(endpoints.marker.create, formData);
   console.log("data resp : ", data);
 
-  return data;
+  return data.status;
 };
 
 export const getFilterMarker = async (params: FilterParam) => {
@@ -52,3 +52,7 @@ export const getMarkerReview = async (id: number) => {
 
   return data;
 };
+
+export const getMarkerFilter = async () => {
+  // const {data} = await Axios.
+}
