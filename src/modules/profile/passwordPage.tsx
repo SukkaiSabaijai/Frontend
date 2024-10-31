@@ -34,7 +34,7 @@ const EditProfileWithPasswordPage = () => {
         .then((profile) => {
           setUsername(profile.username);
           if(profile.user_pic){
-            setProfileImage("http://localhost:5001/image/"+profile.user_pic);
+            setProfileImage("https://api.toiletnearme.org/image/"+profile.user_pic);
             
           }
 

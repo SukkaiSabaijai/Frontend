@@ -135,7 +135,7 @@ type Props = {
           {markerReview.reviews.map((review,index) => (
             <div key={index} className="mb-4 p-3 border rounded-lg bg-white w-full">
               <div className="flex items-center mb-2">
-                <img src={"http://localhost:5000/image/" + review.userPic} alt={`${review.username}'s avatar`} className="w-10 h-10 rounded-full mr-3" />
+                <img src={"https://api.toiletnearme.org/image/" + review.userPic} alt={`${review.username}'s avatar`} className="w-10 h-10 rounded-full mr-3" />
                 <div>
                   <h4 className="font-semibold">{review.username}</h4>
                   <div className="flex text-yellow-500">

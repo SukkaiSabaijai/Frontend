@@ -167,7 +167,7 @@ const DetailCard: React.FC<DetailCardProps> = ({
     </svg>
   );
   const images = markerDetail.img.map((path) => ({
-    src: "http://localhost:5000/image/" + path,
+    src: "https://api.toiletnearme.org/image/" + path,
     text: markerDetail.location_name,
   }));
   const addBookmark = async () => {

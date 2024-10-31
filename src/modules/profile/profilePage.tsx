@@ -33,7 +33,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
         .then((profile) => {
           setUsername(profile.username);
           if (profile.user_pic) {
-            setProfilePic("http://localhost:5001/image/" + profile.user_pic);
+            setProfilePic("https://api.toiletnearme.org/image/" + profile.user_pic);
           }
         })
         .catch((error) => console.error(error));
