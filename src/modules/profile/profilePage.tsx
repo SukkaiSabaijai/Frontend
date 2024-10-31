@@ -8,19 +8,23 @@ import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import ButtonIcon from "@/shared/components/button/button-icon";
 import { logoutUser } from "../login/services/login.service";
 import { fetchUserProfile } from "./services/profile.service";
+import { MarkerType } from "../home/_types/home.type";
 
 type Props = {
   openDrawer: UseBooleanReturn;
   handleBackIconOnClick: () => void;
+  mode: MarkerType;
 };
 
-const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
+const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("Profile");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("Sam"); 
-  const [profilePicture, setProfilePic] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg")
+  const [username, setUsername] = useState("Sam");
+  const [profilePicture, setProfilePic] = useState(
+    "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
+  );
 
   useEffect(() => {
     const token = Cookies.get("accessToken");
@@ -30,10 +34,9 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
       fetchUserProfile()
         .then((profile) => {
           setUsername(profile.username);
-          if(profile.user_pic){
-            setProfilePic("http://localhost:5001/image/"+profile.user_pic);
+          if (profile.user_pic) {
+            setProfilePic("http://localhost:5001/image/" + profile.user_pic);
           }
-          
         })
         .catch((error) => console.error(error));
     }
@@ -51,11 +54,10 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
     isLoggedIn ? { name: "Log out" } : { name: "Sign In / Sign Up" },
   ];
 
-  const historyItems = [
-    { name: "view" },
-    { name: "add" },
-    { name: "review" },
-  ];
+  const historyItems = [{ name: "add" }, { name: "review" }];
+
+  const bgDrawer =
+    mode == MarkerType.Toilet ? "bg-custom-blue" : "bg-custom-yellow";
 
   return (
     <Drawer
@@ -68,13 +70,15 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
           zIndex: 1500,
           position: "fixed",
           borderRadius: "20px 20px 0 0",
-          backgroundColor: "#DFECFF",
+          backgroundColor: bgDrawer,
           overflowY: "auto",
         },
       }}
     >
       <div className="h-full w-full relative overflow-hidden">
-        <div className="flex items-center justify-between bg-custom-blue text-white w-full py-16 px-8 rounded-b-[15px]">
+        <div
+          className={`flex items-center justify-between ${bgDrawer} text-white w-full py-16 px-8 rounded-b-[15px]`}
+        >
           <h1 className="text-4xl font-bold">Hello, {username}</h1>
           <div className="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
             <img
@@ -91,9 +95,11 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
               <React.Fragment key={item.name}>
                 <li
                   className={`p-4 text-xl font-semibold cursor-pointer text-center ${
-                    activeTab === item.name || (item.name === "History" && isHistoryOpen)
-                      ? "bg-custom-blue text-white"
-                      : item.name === "Log out" || item.name === "Sign In / Sign Up"
+                    activeTab === item.name ||
+                    (item.name === "History" && isHistoryOpen)
+                      ? `${bgDrawer} text-white`
+                      : item.name === "Log out" ||
+                        item.name === "Sign In / Sign Up"
                       ? "text-[#E55E5E]"
                       : "text-gray-700"
                   }`}
@@ -111,9 +117,10 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
                       handleLogout();
                     } else if (item.name === "Sign In / Sign Up") {
                       router.push("/login");
-                    } else {
-                      setActiveTab(item.name);
-                      setIsHistoryOpen(false);
+                    } else if (item.name == "Bookmark") {
+                      router.push("/bookmark");
+                      // setActiveTab(item.name);
+                      // setIsHistoryOpen(false);
                     }
                   }}
                 >

@@ -24,7 +24,7 @@ import { getAccessToken } from "@/lib/getAccessToken";
 import { enqueueSnackbar, SnackbarKey } from "notistack";
 import { useRouter } from "next/navigation";
 // import { test } from "./_services/home.service";
-import ProfileDrawer from "../profile/profilePage"
+import ProfileDrawer from "../profile/profilePage";
 
 const HomePage = () => {
   const router = useRouter();
@@ -138,7 +138,7 @@ const HomePage = () => {
 
   const HandleProfileDrawer = () => {
     openProfileDrawer.onTrue();
-  }
+  };
 
   const handleClickCreate = () => {
     const accessToken = getAccessToken();
@@ -198,6 +198,7 @@ const HomePage = () => {
         setFilterRadiusLatlng={setFilterRadiusLatLng}
         flyToCurrentLocation={flyToCurrentLocation}
         allMarker={allMarker}
+        mode={mode}
       />
       {selectLocation.value ? (
         <>
@@ -245,6 +246,7 @@ const HomePage = () => {
       <ProfileDrawer
         openDrawer={openProfileDrawer}
         handleBackIconOnClick={handleBackIconOnClick}
+        mode={mode}
       />
     </>
   );

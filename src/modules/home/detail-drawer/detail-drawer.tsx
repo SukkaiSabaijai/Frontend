@@ -5,7 +5,7 @@ import { useBoolean,UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
 import Img from "@/shared/components/detail-drawer/detail_picture";
 import DetailCard from "@/shared/components/detail-drawer/detail_card";
-import { AllReviewResp, MarkerDetailResp } from "../_types/home.type";
+import { AllReviewResp, MarkerDetailResp, MarkerType } from "../_types/home.type";
 import ReviewDrawer from "../review/review";
 import { useEffect, useState } from "react";
 import { getMarkerReview } from "../_services/home.service";
@@ -16,6 +16,7 @@ type Props = {
   openDrawer: UseBooleanReturn;
   handleBackIconOnClick: () => void;
   markerDetail: MarkerDetailResp | null;
+  mode:MarkerType
 };
 
 // const images = [
@@ -37,6 +38,7 @@ const DetailDrawer = ({
   openDrawer,
   handleBackIconOnClick,
   markerDetail,
+  mode
 }: Props) => {
   const openReviewDrawer = useBoolean(false);
   const [markerReview,setMarkerReview] = useState <AllReviewResp>()
@@ -53,6 +55,10 @@ const DetailDrawer = ({
     }
     updateReview.onFalse()
   }
+
+  const bgDrawer =
+  mode == MarkerType.Toilet ? "#F1F7FF" : "#FFE4AE";
+
   useEffect(()=>{fetchAllReview()},[updateReview])
   return (
     <>
@@ -66,7 +72,7 @@ const DetailDrawer = ({
           zIndex: "1500",
           position: "fixed",
           borderRadius: "20px 20px 0 0",
-          backgroundColor: "#DFECFF",
+          backgroundColor: bgDrawer,
           overflowY: "auto",
         },
       }}
