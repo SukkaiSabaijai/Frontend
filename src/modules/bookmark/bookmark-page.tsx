@@ -23,7 +23,7 @@ const fetchBookMark = async () => {
   }, [bookMarks]);
   return (
     <>
-      <div className="bg-custom-light-blue h-vh">
+      <div className="bg-custom-light-blue min-h-screen">
         <Header title="Bookmark" />
         <div className="flex justify-center items-center mt-10 flex-col">
           {bookMarks&&bookMarks.map(
