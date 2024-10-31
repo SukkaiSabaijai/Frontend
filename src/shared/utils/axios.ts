@@ -12,7 +12,7 @@ async function refreshAccessToken() {
   if (!refreshToken) return null;
 
   try {
-    const response = await instance.get("/auth/refresh", {
+const response = await axios.get(process.env.NEXT_PUBLIC_BASE_URL + "/auth/refresh", {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
