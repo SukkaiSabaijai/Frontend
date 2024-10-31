@@ -1,4 +1,3 @@
-import { getMarkerDetail } from '../../home/_services/home.service';
 import { endpoints } from "@/shared/configs/endpoints.config";
 import Axios from "@/shared/utils/axios";
 
