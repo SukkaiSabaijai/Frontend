@@ -8,11 +8,12 @@ import SearchDrawer from "./search-drawer/search-drawer";
 
 type Props = {
   handleClickSearch: () => void;
+  handleClickProfile: () => void;
   handleClickCreate: () => void;
   handleClickCurrentLocation: () => void;
 };
 
-const HomeButton = ({ handleClickSearch, handleClickCreate,handleClickCurrentLocation }: Props) => {
+const HomeButton = ({ handleClickSearch, handleClickProfile, handleClickCreate,handleClickCurrentLocation }: Props) => {
   const openSearchDrawer = useBoolean(false);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const HomeButton = ({ handleClickSearch, handleClickCreate,handleClickCurrentLoc
             height={31}
             alt="profile-icon"
             src="/assets/icon/profile.svg"
+            onClick={handleClickProfile}
           />
 
           <div className="flex flex-col gap-6">

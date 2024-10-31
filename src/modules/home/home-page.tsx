@@ -15,9 +15,11 @@ import { FilterRadiusLatlngType } from "./_types/home.type";
 import HomeMap from "./home-map";
 import SearchDrawer from "./search-drawer/search-drawer";
 // import { test } from "./_services/home.service";
+import ProfileDrawer from "../profile/profilePage"
 
 const HomePage = () => {
   const openSearchDrawer = useBoolean(false);
+  const openProfileDrawer = useBoolean(false);
   const openCreateDrawer = useBoolean(false);
   const selectLocation = useBoolean(false);
   const [searchBound, setSearchBound] = useState<L.LatLngBounds | null>(null);
@@ -43,6 +45,10 @@ const HomePage = () => {
     openSearchDrawer.onTrue();
   };
 
+  const HandleProfileDrawer = () => {
+    openProfileDrawer.onTrue();
+  }
+
   const handleClickCreate = () => {
     openCreateDrawer.onTrue();
   };
@@ -60,6 +66,7 @@ const HomePage = () => {
 
   const handleBackIconOnClick = () => {
     openCreateDrawer.onFalse();
+    openProfileDrawer.onFalse();
     selectLocation.onFalse();
     setLocation(null);
   };
@@ -95,6 +102,7 @@ const HomePage = () => {
         <>
           <HomeButton
             handleClickSearch={handleClickSearch}
+            handleClickProfile={HandleProfileDrawer}
             handleClickCreate={handleClickCreate}
             handleClickCurrentLocation={handleClickCurrentLocation}
           />
@@ -112,6 +120,10 @@ const HomePage = () => {
         openDrawer={openSearchDrawer}
         setSearchBound={setSearchBound}
         setRadius={setFilterRadius}
+      />
+      <ProfileDrawer
+        openDrawer={openProfileDrawer}
+        handleBackIconOnClick={handleBackIconOnClick}
       />
     </>
   );
