@@ -3,6 +3,8 @@ import Axios from "@/shared/utils/axios";
 import {
   AllMarkerResp,
   AllMarkerType,
+  AllReviewResp,
+  CreateReviewParams,
   FilterParam,
   MarkerDetailResp,
 } from "../_types/home.type";
@@ -46,9 +48,30 @@ export const getMarkerDetail = async (
   return data;
 };
 
-export const getMarkerReview = async (id: number) => {
+export const getMarkerReview = async (id: number): Promise<AllReviewResp> => {
   const { data } = await Axios.get(endpoints.reviews.get(id));
   console.log(data);
 
   return data;
+};
+
+export const createReview = async (createReviewParams:CreateReviewParams) => {
+  const { data } = await Axios.post(endpoints.reviews.create, createReviewParams);
+  console.log("data resp : ", data);
+
+  return data;
+};
+
+export const createBookmark = async (markerId: number, nickname: string) => {
+
+  const requestBody = new URLSearchParams();
+  requestBody.append("markerId", JSON.stringify(markerId));
+  requestBody.append("nickname", nickname);
+
+  const { data } = await Axios.post(endpoints.bookmark.create, requestBody, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  });
+  return data
 };
