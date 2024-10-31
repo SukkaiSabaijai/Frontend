@@ -9,10 +9,13 @@ const latlngSchema = z
     (data) => {
       const { latitude, longitude } = data;
 
-      return latitude !== 0 && longitude !== 0;
+      const isLatitudeInRange = latitude >= 5.613 && latitude <= 20.4644;
+      const isLongitudeInRange = longitude >= 97.3453 && longitude <= 105.6368;
+
+      return isLatitudeInRange && isLongitudeInRange;
     },
     {
-      message: "กรุณาเลือกตำแหน่ง",
+      message: "กรุณาเลือกตำแหน่งในประเทศไทย",
     }
   );
 
@@ -23,12 +26,14 @@ const maxSizeOfImage = 3 * 1024 * 1024;
 export const formSchema = z.object({
   location_name: z.string().min(1, { message: "กรุณากรอกชื่อสถานที่" }),
   detail: z.string().min(1, { message: "กรุณากรอกรายละเอียดเพิ่มเติม" }),
-  category: z.array(z.string()).min(1, { message: "กรุณาเลือกหมวดหมู่" }),
+  category: z.array(z.string()),
   location: latlngSchema,
-  price: z.number(),
+  price: z.number().refine((value) => value >= 0, {
+    message: "กรุณาเลือกค่าเข้าที่ถุกต้อง",
+  }),
   image: z
     .array(z.instanceof(File))
-    .min(1, "กรุณาเลือกรูปภาพ")
+    // .min(1, "กรุณาเลือกรูปภาพ")
     .max(5, "เลือกรูปภาพได้มากสุด 5 รูป")
     .refine(
       (files) => files.every((file) => allowedFileTypes.includes(file.type)),
@@ -42,12 +47,12 @@ export const formSchema = z.object({
 });
 
 export const defaultValue = {
-    location_name:'',
-    detail:'',
-    category:[],
-    location:{ latitude: 0, longitude: 0 },
-    price:0,
-    image:[]
-}
+  location_name: "",
+  detail: "",
+  category: [],
+  location: { latitude: 0, longitude: 0 },
+  price: 0,
+  image: [],
+};
 
 export type FormValues = z.infer<typeof formSchema>;

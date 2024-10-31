@@ -10,31 +10,21 @@ type Props = {
   setCategoryList: Dispatch<SetStateAction<string[]>>;
   className?: string;
   mode?: MarkerType;
-  categoryList: string[];
 };
 
-const Select = ({
-  label,
-  setCategoryList,
-  className,
-  mode,
-  categoryList,
-}: Props) => {
-  const isSelected = useMemo(
-    () => categoryList.includes(label),
-    [categoryList, label]
-  );
+const CreateSelect = ({ label, setCategoryList, className, mode }: Props) => {
+  const isSelect = useBoolean(false);
 
   const handleOnClick = () => {
     setCategoryList((prevList) => {
-      if (isSelected) {
+      if (isSelect.value) {
         return prevList.filter((item) => item !== label);
       } else {
         return [...prevList, label];
       }
     });
+    isSelect.onToggle();
   };
-
   return (
     <div
       className={cn(
@@ -45,25 +35,23 @@ const Select = ({
       <p>{label}</p>
       <div
         className={`w-10 h-5 rounded-full flex items-center px-1 ${
-          mode === MarkerType.Toilet
-            ? isSelected
+          mode == MarkerType.Toilet
+            ? isSelect.value
               ? "bg-custom-light-yellow justify-end"
               : "bg-custom-light-blue"
-            : isSelected
+            : isSelect.value
             ? "bg-custom-light-blue justify-end"
             : "bg-custom-light-yellow"
         }`}
         onClick={handleOnClick}
-        aria-pressed={isSelect.value}
-        role="button"
       >
         <div
           className={`w-4 h-4 rounded-full ${
-            mode === MarkerType.Toilet
-              ? isSelected
+            mode == MarkerType.Toilet
+              ? isSelect.value
                 ? "bg-custom-yellow"
                 : "bg-custom-blue"
-              : isSelected
+              : isSelect.value
               ? "bg-custom-blue"
               : "bg-custom-yellow"
           }`}
@@ -73,4 +61,4 @@ const Select = ({
   );
 };
 
-export default Select;
+export default CreateSelect;

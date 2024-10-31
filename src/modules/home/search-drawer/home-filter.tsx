@@ -13,6 +13,9 @@ type Props = {
   setFilterPrice: Dispatch<SetStateAction<string | null>>;
   setFilterRating: Dispatch<SetStateAction<number>>;
   filterRating: number;
+  categoryList: string[];
+  filterRadius: number | null;
+  filterPrice: string | null;
   mode: MarkerType;
 };
 
@@ -22,6 +25,9 @@ const HomeFilter = ({
   setFilterPrice,
   setFilterRating,
   filterRating,
+  categoryList,
+  filterRadius,
+  filterPrice,
   mode,
 }: Props) => {
   const categories = categoriesMap[mode];
@@ -31,16 +37,15 @@ const HomeFilter = ({
     { label: "within 2 km", value: 2000 },
     { label: "within 5 km", value: 5000 },
   ];
-  const [range, setRange] = useState<number>();
   const style =
     mode == MarkerType.Toilet ? "bg-custom-blue" : "bg-custom-yellow";
 
   const handleRating = (value: number) => {
-    setFilterRating(value);
+    setFilterRating((prevRating) => (prevRating === value ? 0 : value));
   };
 
   const handleRange = (value: number) => {
-    setRadius(value);
+    setRadius((prevRadius) => (prevRadius === value ? null : value));
   };
 
   return (
@@ -56,6 +61,7 @@ const HomeFilter = ({
                 label={type}
                 className="justify-between"
                 mode={mode}
+                categoryList={categoryList}
               />
             ))}
           </div>
@@ -92,7 +98,11 @@ const HomeFilter = ({
               <Button
                 key={index}
                 className={`text-sm py-1 px-5 bg-white text-black ${
-                  mode == MarkerType.Toilet
+                  filterRadius === range.value
+                    ? mode === MarkerType.Toilet
+                      ? "bg-custom-light-yellow"
+                      : "bg-custom-light-blue hover:bg-custom-light-blue"
+                    : mode === MarkerType.Toilet
                     ? "hover:bg-custom-light-yellow"
                     : "hover:bg-custom-light-blue"
                 }`}
@@ -109,6 +119,7 @@ const HomeFilter = ({
           <TextField
             variant="standard"
             sx={{ width: "60%" }}
+            value={filterPrice ? filterPrice : ""}
             type="number"
             onChange={(e) => setFilterPrice(e.target.value)}
           />

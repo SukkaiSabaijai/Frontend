@@ -19,8 +19,16 @@ type Props = {
   openDrawer: UseBooleanReturn;
   setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
   setRadius: Dispatch<SetStateAction<number | null>>;
+  setFilterCategory:Dispatch<SetStateAction<string[]>>
+  setFilterPrice:Dispatch<SetStateAction<string|null>>
+  setFilterRating:Dispatch<SetStateAction<number>>
   filterRadiusLatlng: FilterRadiusLatlngType;
+  filterRating:number
+  filterRadius:number | null
   mode: MarkerType;
+  handleSearchOnClick:()=>void
+  categoryList:string[]
+  filterPrice:string | null
 };
 
 const SearchDrawer = ({
@@ -28,23 +36,20 @@ const SearchDrawer = ({
   setSearchBound,
   setRadius,
   filterRadiusLatlng,
+  setFilterCategory,
+  setFilterPrice,
+  setFilterRating,
+  filterRating,
+  filterRadius,
   mode,
+  categoryList,
+  handleSearchOnClick,
+  filterPrice
 }: Props) => {
-  const [filterCategory, setFilterCategory] = useState<string[]>([]);
-  const [filterPrice, setFilterPrice] = useState<string | null>(null);
-  const [filterRating, setFilterRating] = useState<number>(0);
-  const handleSearchOnClick = () => {
-    console.log("cate : ", filterCategory);
-    console.log("price : ", filterPrice);
-    console.log("rating : ", filterRating);
-    console.log("radius : ", filterRadiusLatlng);
-    if (
-      filterCategory.length != 0 &&
-      filterPrice != null &&
-      filterRating != null
-    ) {
-    }
-  };
+  // const [filterCategory, setFilterCategory] = useState<string[]>([]);
+  // const [filterPrice, setFilterPrice] = useState<string | null>(null);
+  // const [filterRating, setFilterRating] = useState<number>(0);
+
 
   const handleBackButton = () => {
     /**
@@ -83,6 +88,9 @@ const SearchDrawer = ({
           setFilterRating={setFilterRating}
           filterRating={filterRating}
           mode={mode}
+          categoryList={categoryList}
+          filterRadius={filterRadius}
+          filterPrice={filterPrice}
         />
       </div>
       {/* Place ButtonIcon outside the flex container to align to the bottom */}
