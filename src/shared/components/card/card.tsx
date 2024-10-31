@@ -14,7 +14,6 @@ import DetailDrawer from '@/modules/home/detail-drawer/detail-drawer';
 
 type CardProps = {
     id: number;
-    short_name: string;
     marker: MarkerDetailResp;
 }
 
@@ -26,7 +25,7 @@ const Card = (props: CardProps) => {
         deleteBookmark(props.id);
       }
       else {
-        createBookmark(props.marker.id, props.short_name);
+        createBookmark(props.marker.id, props.marker.location_name);
       }
       setState(!state);
     }
@@ -59,7 +58,7 @@ const Card = (props: CardProps) => {
                         />
                     }
                 </IconButton>
-                <span className="font-bold text-2xl align-middle">{props.short_name}</span>
+                <span className="font-bold text-2xl align-middle">{props.marker.location_name}</span>
                 <VerifiedIcon className='text-custom-yellow m-1'/>
             </div>
         </div>
