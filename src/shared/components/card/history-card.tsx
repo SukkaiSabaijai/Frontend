@@ -21,7 +21,7 @@ const HistoryCard = (props: CardProps) => {
 
   return (
     <div className="bg-slate-500 w-[80%] h-60 rounded-3xl mb-8 bg-cover"
-        style={{backgroundImage: `url(http://localhost:5000/image/${props.marker.marker_pics[0].path})`}}>
+        style={{backgroundImage: `url(https://api.toiletnearme.org/image/${props.marker.marker_pics[0].path})`}}>
       
         <div className="mx-auto my-5 text-center bg-white rounded-full w-[60%] p-1.5 flex justify-between">
           <IconButton sx={{ padding: 0 }} onClick={() => {props.deleteFunc(props.marker.id)}}>
