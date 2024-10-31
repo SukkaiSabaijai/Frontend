@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/shared/components/header/header";
-import Card from "@/shared/components/card/card";
+import Card from "@/shared/components/card/bookmark-card";
 import { useEffect, useState } from "react";
 import { getBookmark } from "./_services/bookmark.service";
 import { BookmarkResp } from "./_types/bookmark.type";
