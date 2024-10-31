@@ -40,7 +40,10 @@ export const formSchema = z.object({
       {
         message: "กรุณาเลือกรูปภาพที่มีนามสกุล jpg, jpeg, หรือ png",
       }
-    ),
+    )
+    .refine((files) => files.every((file) => file.size <= maxSizeOfImage), {
+      message: "กรุณาเลือกรูปภาพที่มีขนาดไม่เกิน 3MB",
+    }),
 });
 
 export const defaultValue = {

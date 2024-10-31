@@ -112,6 +112,8 @@ const ReviewForm = ({
   const [newRating, setNewRating] = useState(5);
   const [isFloating, setIsFloating] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const [userProfile, setUserProfile] = useState<UserProfileData>();
+  const router = useRouter();
 
   const addReview = async () => {
     const createReviewParams: CreateReviewParams = {
