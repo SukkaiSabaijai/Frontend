@@ -169,6 +169,7 @@ const EditProfilePage = () => {
             type="date"
             value={date_of_birth}
             onChange={(e) => setDob(e.target.value)}
+            max={new Date().toISOString().split("T")[0]}
             className="w-full px-4 py-3 border border-gray-300 rounded-md"
           />
         </div>

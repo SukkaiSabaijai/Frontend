@@ -97,6 +97,7 @@ const RegisterPage = () => {
             onChange={(e) => setDateOfBirth(e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-md"
             placeholder="Date of birth"
+            max={new Date().toISOString().split("T")[0]}
           />
         </div>
 
