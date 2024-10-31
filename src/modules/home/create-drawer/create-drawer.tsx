@@ -152,7 +152,7 @@ const CreateDrawer = ({
         </div>
       </Drawer>
 
-      <CreateSuccessDrawer openDrawer={openCreateSuccessDrawer} />
+      <CreateSuccessDrawer openDrawer={openCreateSuccessDrawer} mode={mode}/>
     </>
   );
 };
