@@ -21,7 +21,7 @@ export const endpoints = {
   reviews: {
     create: `/reviews/create`,
     get: (markerId: number) => `/reviews/marker/${markerId}/reviews`,
-    delete: (markerId: string, Id: string) => `/reviews/delete/${markerId}/${Id}`,
+    delete: (markerId: number, Id: number) => `/reviews/delete/${markerId}/${Id}`,
   },
   bookmark: {
     get: `/bookmarks`,
@@ -29,4 +29,8 @@ export const endpoints = {
     update: (id: number) => `/bookmarks/${id}`,
     delete: (id: number) => `/bookmarks/${id}`,
   },
+  history: {
+    markers: `/histories/markers`,
+    reviews: `/histories/reviews`,
+  }
 }
