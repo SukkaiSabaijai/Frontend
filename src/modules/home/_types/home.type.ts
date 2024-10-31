@@ -50,6 +50,7 @@ export type MarkerDetailResp = {
   type: MarkerType;
   category: string[];
   created_by: string;
+  isBookMark:boolean
 };
 
 export type AllMarkerResp = {

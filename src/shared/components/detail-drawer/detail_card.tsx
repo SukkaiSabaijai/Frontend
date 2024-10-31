@@ -26,14 +26,12 @@ type DetailCardProps = {
 //   },
 // ];
 
-const DetailCard: React.FC<DetailCardProps> = ({
-  markerDetail,
-}) => {
+const DetailCard: React.FC<DetailCardProps> = ({ markerDetail }) => {
   const [isDisabled, setIsDisabled] = useState<boolean | null>(null);
   const location = `Latitude : ${markerDetail.latitude.toFixed(
     4
   )}, Longitude : ${markerDetail.longitude.toFixed(4)}`;
-  
+
   const disabledEmoji = isDisabled ? (
     "♿"
   ) : (
@@ -72,18 +70,19 @@ const DetailCard: React.FC<DetailCardProps> = ({
       </defs>
     </svg>
   );
-  const images = markerDetail.img&&markerDetail.img.map((path) => ({
-    src: "http://localhost:5000/image/" + path,
-    text: markerDetail.location_name,
-  }));
+  const images =
+    markerDetail.img &&
+    markerDetail.img.map((path) => ({
+      src: "http://localhost:5000/image/" + path,
+      text: markerDetail.location_name,
+    }));
   const addBookmark = async () => {
     const resp = await createBookmark(
       markerDetail.id,
       markerDetail.location_name
     );
+    console.log('resp : ',resp)
   };
-
-
 
   return (
     <>
@@ -91,6 +90,7 @@ const DetailCard: React.FC<DetailCardProps> = ({
         addBookmark={addBookmark}
         images={images}
         className="w-full h-[300px]"
+        isBookmark={markerDetail.isBookMark}
       ></Img>
 
       <div className="flex justify-center items-center h-screen">

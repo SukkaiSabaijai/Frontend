@@ -21,6 +21,7 @@ type Props = {
   handleBackIconOnClick: () => void;
   markerDetail: MarkerDetailResp | null;
   mode: MarkerType;
+  fetchMarkerDetail: (id: number) => void;
 };
 
 // const images = [
@@ -43,10 +44,14 @@ const DetailDrawer = ({
   handleBackIconOnClick,
   markerDetail,
   mode,
+  fetchMarkerDetail,
 }: Props) => {
   const openReviewDrawer = useBoolean(false);
   const [markerReview, setMarkerReview] = useState<AllReviewResp>();
   const updateReview = useBoolean(false);
+  const ratingStar = markerDetail?.avg_rating
+    ? Number(markerDetail.avg_rating.toFixed(0))
+    : 0;
   const handleReviewClick = () => {
     fetchAllReview();
     openReviewDrawer.onTrue();
@@ -61,9 +66,12 @@ const DetailDrawer = ({
   };
 
   const handleBackOnclick = () => {
-    openDrawer.onTrue()
-    openReviewDrawer.onFalse()
-  }
+    if (markerDetail) {
+      fetchMarkerDetail(markerDetail.id);
+    }
+    openDrawer.onTrue();
+    openReviewDrawer.onFalse();
+  };
 
   const bgDrawer = mode == MarkerType.Toilet ? "#F1F7FF" : "#FFE4AE";
   const bgBackDrawer =
@@ -95,22 +103,21 @@ const DetailDrawer = ({
       >
         {/* <Img images={images} className="w-full h-auto"></Img> */}
         {markerDetail && (
-          <div>
-            
-            <DetailCard
-              description="ecc building 1 ถ. ฉลองกรุง แขวงลำปลาทิว เขตลาดกระบัง กรุงเทพมหานคร 10520"
-              latitude={37.7749}
-              longitude={-122.4194}
-              markerDetail={markerDetail}
-            ></DetailCard>
-          </div>
+          <DetailCard
+            description="ecc building 1 ถ. ฉลองกรุง แขวงลำปลาทิว เขตลาดกระบัง กรุงเทพมหานคร 10520"
+            latitude={37.7749}
+            longitude={-122.4194}
+            markerDetail={markerDetail}
+          ></DetailCard>
         )}
         <div className="flex flex-col items-center justify-center h-screen mt-0 mb-10">
           <div className="flex text-yellow-500 mb-2">
             {Array.from({ length: 5 }).map((_, index) => (
               <FaStar
                 key={index}
-                // className={`${index < review.rating ? 'text-yellow-500' : 'text-gray-300'}`}
+                className={`${
+                  index < ratingStar ? "text-yellow-500" : "text-gray-300"
+                }`}
                 size={21}
               />
             ))}
@@ -138,6 +145,7 @@ const DetailDrawer = ({
           updateReview={updateReview}
           mode={mode}
           handleBackOnClick={handleBackOnclick}
+          locationName={markerDetail ? markerDetail.location_name : ""}
         />
       )}
     </>

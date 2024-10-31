@@ -14,9 +14,10 @@ type Props = {
     updateReview: UseBooleanReturn;
     mode:MarkerType
     handleBackOnClick:()=>void
+    locationName:string
   };
 
-  const ReviewDrawer = ({ openDrawer, markerReview, updateReview,mode,handleBackOnClick}: Props) => {
+  const ReviewDrawer = ({ openDrawer, markerReview, updateReview,mode,handleBackOnClick,locationName}: Props) => {
     const bgDrawer = mode == MarkerType.Toilet ? "#F1F7FF" : "#FFE4AE";
 
     return (
@@ -35,7 +36,7 @@ type Props = {
           },
         }}
       >
-        <ReviewForm markerReview={markerReview} updateReview={updateReview} mode={mode}/>
+        <ReviewForm markerReview={markerReview} updateReview={updateReview} mode={mode} locationName={locationName}/>
         <ButtonIcon
         onClick={handleBackOnClick}
         width={30}
