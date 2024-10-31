@@ -117,6 +117,12 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const bgDrawer =
     mode == MarkerType.Toilet ? "bg-custom-blue" : "bg-custom-yellow";
 
+  useEffect(() => {
+    if (activeTab === "add" || activeTab === "review") {
+      handleHistoryOnClick();
+    }
+  }, [activeTab]);
+
   return (
     <Drawer
       open={openDrawer.value}
@@ -165,7 +171,8 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
                       handleProfileOnClick();
                     } else if (item.name === "History") {
                       setIsHistoryOpen(!isHistoryOpen);
-                      // setActiveTab("History");
+                      setActiveTab("History");
+                      console.log("click");
                     } else if (item.name === "Log out") {
                       handleLogout();
                     } else if (item.name === "Sign In / Sign Up") {
@@ -185,8 +192,8 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
                         key={subItem.name}
                         className="p-2 text-lg text-gray-500 cursor-pointer hover:bg-gray-200 rounded"
                         onClick={() => {
-                          handleHistoryOnClick();
                           setActiveTab(subItem.name);
+                          // handleHistoryOnClick();
                         }}
                       >
                         - {subItem.name}
