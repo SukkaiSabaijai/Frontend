@@ -20,7 +20,7 @@ const HistoryCard = (props: CardProps) => {
     // }
 
   const bgImg = props.marker.marker_pics[0]? 
-  {backgroundImage: `url(http://localhost:5000/image/${props.marker.marker_pics[0].path})`}:
+  {backgroundImage: `url(https://api.toiletnearme.org/image/${props.marker.marker_pics[0].path})`}:
   {backgroundColor: "#bdbdbd"}
 
   return (

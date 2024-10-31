@@ -167,7 +167,7 @@ const ReviewForm = ({
               <img
                 src={
                   review.userPic
-                    ? "http://localhost:5000/image/" + review.userPic
+                    ? "https://api.toiletnearme.org/image/" + review.userPic
                     : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
                 }
                 alt={`${review.username}'s avatar`}
