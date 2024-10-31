@@ -21,7 +21,7 @@ import {
 import HomeMap from "./home-map";
 import SearchDrawer from "./search-drawer/search-drawer";
 import { getAccessToken } from "@/lib/getAccessToken";
-import { enqueueSnackbar, SnackbarKey } from "notistack";
+import { closeSnackbar, enqueueSnackbar, SnackbarKey } from "notistack";
 import { useRouter } from "next/navigation";
 // import { test } from "./_services/home.service";
 import ProfileDrawer from "../profile/profilePage";
@@ -177,11 +177,16 @@ const HomePage = () => {
     openProfileDrawer.onFalse();
     selectLocation.onFalse();
     setLocation(null);
+    fetchAllMarker();
   };
 
   const notiStackAction = (key: SnackbarKey) => (
-    <button onClick={() => router.replace("/login")}>ไปหน้า login</button>
+    <button onClick={() => notiStackOnClick(key)}>ไปหน้า login</button>
   );
+  const notiStackOnClick = (key: SnackbarKey) => {
+    router.replace("/login");
+    closeSnackbar(key);
+  };
 
   useEffect(() => {
     fetchAllMarker();

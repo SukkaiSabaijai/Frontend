@@ -7,12 +7,12 @@ interface ImgProps {
   images: { src: string; text: string }[];
   className?: string;
   addBookmark: () => void;
+  isBookmark: boolean;
 }
 
-const Img = ({ images, className, addBookmark }: ImgProps) => {
+const Img = ({ images, className, addBookmark, isBookmark }: ImgProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isStarred, setIsStarred] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
+  const [isStarred, setIsStarred] = useState(isBookmark);
 
   const handleError = () => {
     console.error(`Failed to load image: ${images[currentIndex].src}`);
@@ -21,10 +21,6 @@ const Img = ({ images, className, addBookmark }: ImgProps) => {
   const toggleStar = () => {
     setIsStarred((prev) => !prev);
     addBookmark();
-  };
-
-  const toggleVerified = () => {
-    setIsVerified((prev) => !prev);
   };
 
   const nextImage = () => {
@@ -47,14 +43,8 @@ const Img = ({ images, className, addBookmark }: ImgProps) => {
           alt={images[currentIndex].text}
         />
         <div className="absolute top-[5%] left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 p-2 rounded-2xl flex items-center text-2xl font-superbold">
-          <button
-            className={cn("mr-2 hover:text-yellow-500 transition-colors ", {
-              "text-yellow-500": isStarred,
-              "text-gray-400": !isStarred,
-            })}
-            onClick={toggleStar}
-          >
-            {isStarred ? (
+          <button onClick={toggleStar}>
+            {!isStarred ? (
               <svg
                 width="17"
                 height="17"
@@ -160,8 +150,8 @@ const Img = ({ images, className, addBookmark }: ImgProps) => {
           </svg>
         </button>
       </div>
-    ));
-  
+    )
+  );
 };
 
 export default Img;

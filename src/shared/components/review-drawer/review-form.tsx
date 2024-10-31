@@ -94,8 +94,9 @@ type Props = {
   markerReview: AllReviewResp;
   updateReview: UseBooleanReturn;
   mode: MarkerType;
+  locationName:string
 };
-const ReviewForm = ({ markerReview, updateReview, mode }: Props) => {
+const ReviewForm = ({ markerReview, updateReview, mode,locationName }: Props) => {
   // const [reviews, setReviews] = useState<Review[]>();
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(5);
@@ -132,7 +133,7 @@ const ReviewForm = ({ markerReview, updateReview, mode }: Props) => {
   return (
     <div className={`p-4 w-full ${bgDrawer} rounded-lg shadow-md relative`}>
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold">ECC Toilet 1st floor</h2>
+        <h2 className="text-xl font-bold">{locationName}</h2>
         <div className="flex items-center space-x-1 text-yellow-500 text-xl font-bold">
           <span>{Number(markerReview.avgRating).toFixed(1)}/5</span>
           <span className="text-gray-600 text-xl font-bold">
