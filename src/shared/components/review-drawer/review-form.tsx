@@ -94,9 +94,14 @@ type Props = {
   markerReview: AllReviewResp;
   updateReview: UseBooleanReturn;
   mode: MarkerType;
-  locationName:string
+  locationName: string;
 };
-const ReviewForm = ({ markerReview, updateReview, mode,locationName }: Props) => {
+const ReviewForm = ({
+  markerReview,
+  updateReview,
+  mode,
+  locationName,
+}: Props) => {
   // const [reviews, setReviews] = useState<Review[]>();
   const [newComment, setNewComment] = useState("");
   const [newRating, setNewRating] = useState(5);
@@ -160,7 +165,11 @@ const ReviewForm = ({ markerReview, updateReview, mode,locationName }: Props) =>
           >
             <div className="flex items-center mb-2">
               <img
-                src={"https://api.toiletnearme.org/image/" + review.userPic}
+                src={
+                  review.userPic
+                    ? "http://localhost:5000/image/" + review.userPic
+                    : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
+                }
                 alt={`${review.username}'s avatar`}
                 className="w-10 h-10 rounded-full mr-3"
               />
@@ -224,7 +233,12 @@ const ReviewForm = ({ markerReview, updateReview, mode,locationName }: Props) =>
                 onClick={addReview}
                 className={`p-2 ${bgButton} text-white rounded-full hover:bg-blue-600`}
               >
-               <Image src="/assets/icon/add-review.svg" alt="add review" width={20} height={20}/>
+                <Image
+                  src="/assets/icon/add-review.svg"
+                  alt="add review"
+                  width={20}
+                  height={20}
+                />
               </button>
             </div>
           </div>
