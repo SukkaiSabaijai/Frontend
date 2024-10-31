@@ -26,7 +26,7 @@ export const endpoints = {
   bookmark: {
     get: `/bookmarks`,
     create: `/bookmarks`,
-    update: (id: string) => `/bookmarks/${id}`,
-    delete: (id: string) => `/bookmarks/${id}`,
+    update: (id: number) => `/bookmarks/${id}`,
+    delete: (id: number) => `/bookmarks/${id}`,
   },
 }

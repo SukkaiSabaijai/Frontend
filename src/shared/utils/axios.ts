@@ -21,6 +21,7 @@ async function refreshAccessToken() {
     setAccessToken(newAccessToken);
     return newAccessToken;
   } catch (error) {
+    console.log("Can not refresh.");
     clearTokens();
     return null;
   }

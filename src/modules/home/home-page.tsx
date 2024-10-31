@@ -23,12 +23,15 @@ import SearchDrawer from "./search-drawer/search-drawer";
 import { getAccessToken } from "@/lib/getAccessToken";
 import { enqueueSnackbar, SnackbarKey } from "notistack";
 import { useRouter } from "next/navigation";
+// import { test } from "./_services/home.service";
+import ProfileDrawer from "../profile/profilePage";
 
 const HomePage = () => {
   const router = useRouter();
   const [allMarker, setAllMarker] = useState<AllMarkerResp[]>();
   const [mode, setMode] = useState<MarkerType>(MarkerType.Toilet);
   const openSearchDrawer = useBoolean(false);
+  const openProfileDrawer = useBoolean(false);
   const openCreateDrawer = useBoolean(false);
   const selectLocation = useBoolean(false);
   const [searchBound, setSearchBound] = useState<L.LatLngBounds | null>(null);
@@ -133,6 +136,10 @@ const HomePage = () => {
     openSearchDrawer.onTrue();
   };
 
+  const HandleProfileDrawer = () => {
+    openProfileDrawer.onTrue();
+  };
+
   const handleClickCreate = () => {
     const accessToken = getAccessToken();
     if (accessToken) {
@@ -167,6 +174,7 @@ const HomePage = () => {
 
   const handleBackIconOnClick = () => {
     openCreateDrawer.onFalse();
+    openProfileDrawer.onFalse();
     selectLocation.onFalse();
     setLocation(null);
   };
@@ -190,6 +198,7 @@ const HomePage = () => {
         setFilterRadiusLatlng={setFilterRadiusLatLng}
         flyToCurrentLocation={flyToCurrentLocation}
         allMarker={allMarker}
+        mode={mode}
       />
       {selectLocation.value ? (
         <>
@@ -202,6 +211,7 @@ const HomePage = () => {
         <>
           <HomeButton
             handleClickSearch={handleClickSearch}
+            handleClickProfile={HandleProfileDrawer}
             handleClickCreate={handleClickCreate}
             handleClickCurrentLocation={handleClickCurrentLocation}
             handleClickSelectMode={handleClickSelectMode}
@@ -232,6 +242,11 @@ const HomePage = () => {
         categoryList={filterCategory}
         filterRadius={filterRadius}
         filterPrice={filterPrice}
+      />
+      <ProfileDrawer
+        openDrawer={openProfileDrawer}
+        handleBackIconOnClick={handleBackIconOnClick}
+        mode={mode}
       />
     </>
   );
