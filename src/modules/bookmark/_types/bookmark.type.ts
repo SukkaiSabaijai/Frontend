@@ -1,6 +1,6 @@
 export enum MarkerType {
   Toilet = "toilet",
-  REST_AREA = "reat_area",
+  REST_AREA = "rest_area",
 }
 
 type MarkerPic = {

@@ -120,7 +120,7 @@ const EditProfilePage = () => {
 
   return (
     <div className="h-[100vh] w-full relative overflow-hidden">
-      <div className="flex items-center justify-between bg-custom-blue text-white w-full py-16 px-8 rounded-b-[15px]">
+      <div className="flex items-center justify-between bg-custom-light-green text-white w-full py-16 px-8 rounded-b-[15px]">
         <h1 className="text-4xl font-bold">Hello, {username}!</h1>
         <div className="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
           <img src={user_pic} alt="Profile" className="w-full h-full object-cover" />

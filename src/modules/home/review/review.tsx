@@ -4,7 +4,7 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
 import ReviewForm from "@/shared/components/review-drawer/review-form";
-import { AllMarkerResp, AllReviewResp } from "../_types/home.type";
+import { AllMarkerResp, AllReviewResp, MarkerType } from "../_types/home.type";
 
 
 
@@ -12,9 +12,13 @@ type Props = {
     openDrawer: UseBooleanReturn;
     markerReview: AllReviewResp;
     updateReview: UseBooleanReturn;
+    mode:MarkerType
+    handleBackOnClick:()=>void
   };
 
-  const ReviewDrawer = ({ openDrawer, markerReview, updateReview}: Props) => {
+  const ReviewDrawer = ({ openDrawer, markerReview, updateReview,mode,handleBackOnClick}: Props) => {
+    const bgDrawer = mode == MarkerType.Toilet ? "#F1F7FF" : "#FFE4AE";
+
     return (
       <Drawer
         open={openDrawer.value}
@@ -26,14 +30,14 @@ type Props = {
             zIndex: "1500",
             position: "fixed",
             borderRadius: "20px 20px 0 0",
-            backgroundColor: "#DFECFF",
+            backgroundColor: bgDrawer,
             overflowY: "auto",
           },
         }}
       >
-        <ReviewForm markerReview={markerReview} updateReview={updateReview}/>
+        <ReviewForm markerReview={markerReview} updateReview={updateReview} mode={mode}/>
         <ButtonIcon
-        onClick={openDrawer.onFalse}
+        onClick={handleBackOnClick}
         width={30}
         height={41}
         alt="rest-icon"
