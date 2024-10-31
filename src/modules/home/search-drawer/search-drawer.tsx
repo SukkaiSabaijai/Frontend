@@ -107,7 +107,7 @@ const SearchDrawer = ({
           height={41}
           mode={mode}
           alt="rest-icon"
-          src="/assets/icon/back.svg"
+          src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
         />
         <ButtonIcon
           src="/assets/icon/search.svg"
