@@ -254,6 +254,7 @@ export default function HomeMap({
         handleBackIconOnClick={handleBackIconOnClick}
         markerDetail={markerDetail}
         mode={mode}
+        fetchMarkerDetail = {fetchMarkerDetail}
       />
     </>
   );

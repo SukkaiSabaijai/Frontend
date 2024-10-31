@@ -5,7 +5,7 @@ import Select from "@/shared/components/select/select";
 import { TextField } from "@mui/material";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { categoriesMap, FilterParam, MarkerType } from "../_types/home.type";
+import { categoriesMap, MarkerType } from "../_types/home.type";
 
 type Props = {
   setRadius: Dispatch<SetStateAction<number | null>>;
@@ -48,6 +48,14 @@ const HomeFilter = ({
     setRadius((prevRadius) => (prevRadius === value ? null : value));
   };
 
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(e.target.value);
+    // Only set the price if it's 0 or greater
+    if (value >= 0 || e.target.value === "") {
+      setFilterPrice(e.target.value);
+    }
+  };
+
   return (
     <div className={`w-full rounded-3xl flex text-white p-3 ${style}`}>
       <div className="w-[55%] flex flex-col gap-4">
@@ -76,9 +84,9 @@ const HomeFilter = ({
                 className={`${
                   value > filterRating
                     ? "text-white"
-                    : mode == MarkerType.Toilet
+                    : mode === MarkerType.Toilet
                     ? "text-custom-light-yellow"
-                    : "text-custom-light-blue"
+                    : "text-custom-blue"
                 }`}
                 onClick={() => handleRating(value)}
                 size={21}
@@ -100,11 +108,11 @@ const HomeFilter = ({
                 className={`text-sm py-1 px-5 bg-white text-black ${
                   filterRadius === range.value
                     ? mode === MarkerType.Toilet
-                      ? "bg-custom-light-yellow"
-                      : "bg-custom-light-blue hover:bg-custom-light-blue"
+                      ? "bg-custom-yellow hover:bg-custom-yellow"
+                      : "bg-custom-blue hover:bg-custom-blue"
                     : mode === MarkerType.Toilet
-                    ? "hover:bg-custom-light-yellow"
-                    : "hover:bg-custom-light-blue"
+                    ? "bg-custom-light-yellow hover:bg-custom-light-yellow"
+                    : "bg-custom-light-blue hover:bg-custom-light-blue"
                 }`}
                 onClick={() => handleRange(range.value)}
               >
@@ -121,7 +129,8 @@ const HomeFilter = ({
             sx={{ width: "60%" }}
             value={filterPrice ? filterPrice : ""}
             type="number"
-            onChange={(e) => setFilterPrice(e.target.value)}
+            onChange={handlePriceChange}
+            inputProps={{ min: 0 }} // HTML5 validation to prevent negative input
           />
         </div>
       </div>

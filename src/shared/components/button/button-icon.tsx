@@ -24,13 +24,14 @@ const ButtonIcon = ({
   mode,
 }: Props) => {
   const style =
-    mode == MarkerType.Toilet
-      ? "bg-custom-light-blue "
-      : "bg-custom-light-yellow ";
+  mode == MarkerType.Toilet
+  ? "bg-custom-light-blue active:bg-custom-light-yellow focus:bg-custom-light-blue"
+  : "bg-custom-light-yellow active:bg-custom-light-blue focus:bg-custom-light-yellow";
+
   return (
     <button
       className={cn(
-        `${style} shadow-md shadow-slate-400 w-16 h-16 text-white text-2xl font-semibold rounded-2xl  transition ease-in-out duration-300 flex justify-center items-center`,
+        `${style} shadow-md shadow-slate-400 w-16 h-16 text-white text-2xl font-semibold rounded-2xl transition ease-in-out duration-300 flex justify-center items-center`,
         className
       )}
       onClick={onClick}

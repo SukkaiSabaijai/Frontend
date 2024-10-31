@@ -9,6 +9,8 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 import { logoutUser } from "../login/services/login.service";
 import { fetchUserProfile } from "./services/profile.service";
 import { MarkerType } from "../home/_types/home.type";
+import { getAccessToken } from "@/lib/getAccessToken";
+import { SnackbarKey, closeSnackbar, enqueueSnackbar } from "notistack";
 
 type Props = {
   openDrawer: UseBooleanReturn;
@@ -20,14 +22,12 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("Profile");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("Sam");
-  const [profilePicture, setProfilePic] = useState(
-    "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [username, setUsername] = useState("Guest"); 
+  const [profilePicture, setProfilePic] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg")
 
   useEffect(() => {
-    const token = Cookies.get("accessToken");
+    const token = getAccessToken();
     setIsLoggedIn(!!token);
 
     if (token) {
@@ -35,12 +35,61 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
         .then((profile) => {
           setUsername(profile.username);
           if (profile.user_pic) {
-            setProfilePic("http://localhost:5001/image/" + profile.user_pic);
+            setProfilePic("https://api.toiletnearme.org/image/" + profile.user_pic);
           }
         })
         .catch((error) => console.error(error));
     }
   }, []);
+
+  const handleProfileOnClick = () => {
+    if (isLoggedIn) {
+      console.log("hi");
+      router.replace("/user");
+    } else {
+      console.log("no");
+      enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: { vertical: "top", horizontal: "left" },
+        action: notiStackAction,
+      });
+    }
+  };
+  const handleHistoryOnClick = () => {
+    if (isLoggedIn) {
+      console.log("hi");
+      router.replace("/user");
+    } else {
+      console.log("no");
+      enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: { vertical: "top", horizontal: "left" },
+        action: notiStackAction,
+      });
+    }
+  };
+  const handleBookmarkOnClick = () => {
+    if (isLoggedIn) {
+      router.replace("/bookmark");
+    } else {
+      enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: { vertical: "top", horizontal: "left" },
+        action: notiStackAction,
+      });
+    }
+  };
+
+  const notiStackAction = (key: SnackbarKey) => (
+    <button onClick={() => notiStackOnClick(key)}>ไปหน้า login</button>
+  );
+  const notiStackOnClick = (key: SnackbarKey) => {
+    router.replace("/login");
+    closeSnackbar(key);
+  };
 
   const handleLogout = () => {
     logoutUser();
@@ -69,7 +118,6 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
           width: "100%",
           zIndex: 1500,
           position: "fixed",
-          borderRadius: "20px 20px 0 0",
           backgroundColor: bgDrawer,
           overflowY: "auto",
         },
@@ -105,11 +153,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
                   }`}
                   onClick={() => {
                     if (item.name === "Profile") {
-                      if (isLoggedIn) {
-                        router.push("/user");
-                      } else {
-                        router.push("/login");
-                      }
+                      handleProfileOnClick();
                     } else if (item.name === "History") {
                       setIsHistoryOpen(!isHistoryOpen);
                       setActiveTab("History");
@@ -118,9 +162,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
                     } else if (item.name === "Sign In / Sign Up") {
                       router.push("/login");
                     } else if (item.name == "Bookmark") {
-                      router.push("/bookmark");
-                      // setActiveTab(item.name);
-                      // setIsHistoryOpen(false);
+                      handleBookmarkOnClick();
                     }
                   }}
                 >
@@ -144,16 +186,16 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
             ))}
           </ul>
         </div>
-
-        <div className="absolute bottom-32 left-4">
+        
+        <div className="absolute bottom-16 left-0 mb-4 ml-4">
           <ButtonIcon
             type="button"
             onClick={handleBackIconOnClick}
             width={30}
             height={41}
             alt="rest-icon"
-            src="/assets/icon/back.svg"
-            className="bg-custom-light-yellow"
+            mode={mode}
+            src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
           ></ButtonIcon>
         </div>
       </div>

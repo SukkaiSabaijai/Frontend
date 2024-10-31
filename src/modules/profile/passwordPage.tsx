@@ -6,14 +6,20 @@ import Cookies from "js-cookie";
 import { updateUserProfile, fetchUserProfile, updateUserPassword } from "./services/profile.service";
 import { UpdateProfileData, UpdatePasswordData } from "./types/profilePage";
 import { enqueueSnackbar } from "notistack";
+import {useRouter} from "next/navigation";
 
-const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
+const EditProfileWithPasswordPage = () => {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [profileImage, setProfileImage] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleBackIcon = () => {
+    router.push("/user");
+  };
 
   useEffect(() => {
     fetchProfile()
@@ -28,7 +34,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
         .then((profile) => {
           setUsername(profile.username);
           if(profile.user_pic){
-            setProfileImage("http://localhost:5001/image/"+profile.user_pic);
+            setProfileImage("https://api.toiletnearme.org/image/"+profile.user_pic);
             
           }
 
@@ -39,7 +45,10 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
 
   const handlePasswordUpdate = async () => {
     if (newPassword !== confirmPassword) {
-      alert("New password and confirm password do not match.");
+      enqueueSnackbar("FNew password and confirm password do not match.", {
+        variant: "error",
+        autoHideDuration: 3000
+      });
       return;
     }
 
@@ -53,6 +62,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
       const response = await updateUserPassword(passwordData);
       enqueueSnackbar("Password updated successfully.", {
         variant: "success",
+        autoHideDuration: 3000
       });
     } catch (error) {
       console.error(error);
@@ -64,7 +74,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div className="h-[100vh] w-full relative overflow-hidden">
-      <div className="flex items-center justify-between bg-custom-blue text-white w-full py-16 px-8 rounded-b-[15px]">
+      <div className="flex items-center justify-between bg-custom-light-green text-white w-full py-16 px-8 rounded-b-[15px]">
         <h1 className="text-4xl font-bold">Hello, {username}!</h1>
         <div className="w-24 h-24 bg-gray-300 rounded-full overflow-hidden">
           <img
@@ -87,6 +97,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
         <div className="w-80">
           <input
             type="text"
+            readOnly
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full p-4 text-lg border rounded-lg text-center"
@@ -125,21 +136,21 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         <button
-          className="w-80 p-4 text-lg bg-custom-blue text-white rounded-lg"
+          className="w-80 p-4 text-lg bg-custom-light-green text-white rounded-lg"
           onClick={handlePasswordUpdate}
         >
           Update
         </button>
       </div>
 
-      <div className="absolute bottom-0 left-0 mb-4 ml-4">
+      <div className="absolute bottom-16 left-0 mb-4 ml-4">
         <ButtonIcon
-          onClick={onClose}
+          onClick={handleBackIcon}
           width={30}
           height={41}
           alt="rest-icon"
-          src="/assets/icon/back.svg"
-          className="bg-custom-light-yellow"
+          src="/assets/icon/back-icon-yellow.svg"
+          className="bg-custom-light-green"
         />
       </div>
     </div>

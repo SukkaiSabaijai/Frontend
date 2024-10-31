@@ -14,6 +14,7 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false); 
 
+
   const handleLogin = async () => {
     setError(null); 
     setLoading(true); 
@@ -33,7 +34,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
-      <h1 className="text-4xl font-bold text-center bg-custom-blue text-white w-full py-20 mb-8 rounded-b-[15px]">
+      <h1 className="text-4xl font-bold text-center bg-custom-blue text-white w-full py-20 mb-8 rounded-b-[15px] cursor-pointer" onClick={() => (window.location.href = "/")}>
         Toilet Near Me🚽
       </h1>
 
