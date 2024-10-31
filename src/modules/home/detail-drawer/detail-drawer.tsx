@@ -95,15 +95,12 @@ const DetailDrawer = ({
       >
         {/* <Img images={images} className="w-full h-auto"></Img> */}
         {markerDetail && (
-          <div>
-            
             <DetailCard
               description="ecc building 1 ถ. ฉลองกรุง แขวงลำปลาทิว เขตลาดกระบัง กรุงเทพมหานคร 10520"
               latitude={37.7749}
               longitude={-122.4194}
               markerDetail={markerDetail}
             ></DetailCard>
-          </div>
         )}
         <div className="flex flex-col items-center justify-center h-screen mt-0 mb-10">
           <div className="flex text-yellow-500 mb-2">
@@ -127,8 +124,9 @@ const DetailDrawer = ({
           width={30}
           height={41}
           alt="rest-icon"
-          src={backSrc}
-          className={`${bgBackDrawer} fixed bottom-5 left-5 z-50`}
+          mode={mode}
+          src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
+          className = {`fixed bottom-5 left-5 z-50`}
         ></ButtonIcon>
       </Drawer>
       {markerReview && (
