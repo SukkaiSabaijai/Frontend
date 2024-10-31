@@ -21,7 +21,7 @@ type Props = {
   handleBackIconOnClick: () => void;
   markerDetail: MarkerDetailResp | null;
   mode: MarkerType;
-  fetchMarkerDetail: (id: number) => void;
+  fetchMarkerDetail?: (id: number) => void;
 };
 
 // const images = [
@@ -66,7 +66,7 @@ const DetailDrawer = ({
   };
 
   const handleBackOnclick = () => {
-    if (markerDetail) {
+    if (markerDetail && fetchMarkerDetail) {
       fetchMarkerDetail(markerDetail.id);
     }
     openDrawer.onTrue();

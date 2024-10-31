@@ -186,8 +186,8 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
             ))}
           </ul>
         </div>
-
-        <div className="absolute bottom-16 left-4">
+        
+        <div className="absolute bottom-16 left-0 mb-4 ml-4">
           <ButtonIcon
             type="button"
             onClick={handleBackIconOnClick}
