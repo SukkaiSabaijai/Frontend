@@ -86,7 +86,7 @@ const HomeFilter = ({
                     ? "text-white"
                     : mode === MarkerType.Toilet
                     ? "text-custom-light-yellow"
-                    : "text-custom-light-blue"
+                    : "text-custom-blue"
                 }`}
                 onClick={() => handleRating(value)}
                 size={21}
@@ -108,11 +108,11 @@ const HomeFilter = ({
                 className={`text-sm py-1 px-5 bg-white text-black ${
                   filterRadius === range.value
                     ? mode === MarkerType.Toilet
-                      ? "bg-custom-light-yellow"
-                      : "bg-custom-light-blue hover:bg-custom-light-blue"
+                      ? "bg-custom-yellow hover:bg-custom-yellow"
+                      : "bg-custom-blue hover:bg-custom-blue"
                     : mode === MarkerType.Toilet
-                    ? "hover:bg-custom-light-yellow"
-                    : "hover:bg-custom-light-blue"
+                    ? "bg-custom-light-yellow hover:bg-custom-light-yellow"
+                    : "bg-custom-light-blue hover:bg-custom-light-blue"
                 }`}
                 onClick={() => handleRange(range.value)}
               >
