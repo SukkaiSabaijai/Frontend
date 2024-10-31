@@ -181,7 +181,7 @@ const EditProfilePage = () => {
           <p className="underline text-gray-500 cursor-pointer text-center">Change Password?</p>
         </Link>
 
-        <button className="w-80 p-4 text-lg bg-custom-blue text-white rounded-lg" onClick={handleUpdate}>
+        <button className="w-80 p-4 text-lg bg-custom-light-green text-white rounded-lg" onClick={handleUpdate}>
           Update
         </button>
       </div>
