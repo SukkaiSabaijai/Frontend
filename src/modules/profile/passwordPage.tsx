@@ -6,14 +6,20 @@ import Cookies from "js-cookie";
 import { updateUserProfile, fetchUserProfile, updateUserPassword } from "./services/profile.service";
 import { UpdateProfileData, UpdatePasswordData } from "./types/profilePage";
 import { enqueueSnackbar } from "notistack";
+import {useRouter} from "next/navigation";
 
-const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
+const EditProfileWithPasswordPage = () => {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [profileImage, setProfileImage] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleBackIcon = () => {
+    router.push("/user");
+  };
 
   useEffect(() => {
     fetchProfile()
@@ -39,7 +45,10 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
 
   const handlePasswordUpdate = async () => {
     if (newPassword !== confirmPassword) {
-      alert("New password and confirm password do not match.");
+      enqueueSnackbar("FNew password and confirm password do not match.", {
+        variant: "error",
+        autoHideDuration: 3000
+      });
       return;
     }
 
@@ -53,6 +62,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
       const response = await updateUserPassword(passwordData);
       enqueueSnackbar("Password updated successfully.", {
         variant: "success",
+        autoHideDuration: 3000
       });
     } catch (error) {
       console.error(error);
@@ -87,6 +97,7 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
         <div className="w-80">
           <input
             type="text"
+            readOnly
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full p-4 text-lg border rounded-lg text-center"
@@ -132,9 +143,9 @@ const EditProfileWithPasswordPage = ({ onClose }: { onClose: () => void }) => {
         </button>
       </div>
 
-      <div className="absolute bottom-0 left-0 mb-4 ml-4">
+      <div className="absolute bottom-16 left-0 mb-4 ml-4">
         <ButtonIcon
-          onClick={onClose}
+          onClick={handleBackIcon}
           width={30}
           height={41}
           alt="rest-icon"
