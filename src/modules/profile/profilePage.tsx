@@ -61,7 +61,11 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
   const handleHistoryOnClick = () => {
     if (isLoggedIn) {
       console.log("hi");
-      router.replace("/user");
+      if (activeTab === "add") {
+        router.replace("/marker-history");
+      } else if (activeTab === "review") {
+        router.replace("/review-history");
+      }
     } else {
       console.log("no");
       enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
@@ -178,7 +182,10 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
                       <li
                         key={subItem.name}
                         className="p-2 text-lg text-gray-500 cursor-pointer hover:bg-gray-200 rounded"
-                        onClick={() => setActiveTab(subItem.name)}
+                        onClick={() => {
+                          handleHistoryOnClick();
+                          setActiveTab(subItem.name);
+                        }}
                       >
                         - {subItem.name}
                       </li>
