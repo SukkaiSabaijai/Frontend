@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/shared/components/header/header";
-import Card from "@/shared/components/card/card";
+import Card from "@/shared/components/card/bookmark-card";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getBookmark } from "./_services/bookmark.service";
@@ -27,7 +27,7 @@ const BookmarkPage = () => {
 
   return (
     <>
-      <div className="h-lvh">
+      <div className="bg-custom-light-blue min-h-screen">
         <Header title="Bookmark" />
         <div className="flex justify-center items-center mt-10 flex-col">
           {bookMarks &&
