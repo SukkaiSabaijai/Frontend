@@ -11,6 +11,7 @@ import { fetchUserProfile } from "./services/profile.service";
 import { MarkerType } from "../home/_types/home.type";
 import { getAccessToken } from "@/lib/getAccessToken";
 import { SnackbarKey, closeSnackbar, enqueueSnackbar } from "notistack";
+import { checkAuthen } from "../../shared/utils/auth";
 
 type Props = {
   openDrawer: UseBooleanReturn;
@@ -46,12 +47,12 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
     }
   }, []);
 
-  const handleProfileOnClick = () => {
-    if (isLoggedIn) {
-      console.log("hi");
+  
+  const handleProfileOnClick = async () => {
+    const isAuthen = await checkAuthen()
+    if (isAuthen) {
       router.replace("/user");
     } else {
-      console.log("no");
       enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
         variant: "error",
         autoHideDuration: 3000,
@@ -60,9 +61,10 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
       });
     }
   };
-  const handleHistoryOnClick = () => {
-    if (isLoggedIn) {
-      console.log("hi");
+  
+  const handleHistoryOnClick = async () => {
+    const isAuthen = await checkAuthen()
+    if (isAuthen) {
       console.log("active : ", activeTab);
       if (activeTab === "add") {
         router.replace("/marker-history");
@@ -79,8 +81,10 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
       });
     }
   };
-  const handleBookmarkOnClick = () => {
-    if (isLoggedIn) {
+
+  const handleBookmarkOnClick = async () => {
+    const isAuthen = await checkAuthen()
+    if (isAuthen) {
       router.replace("/bookmark");
     } else {
       enqueueSnackbar("กรุณาเข้าสู่ระบบ", {

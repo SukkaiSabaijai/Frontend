@@ -25,6 +25,7 @@ import { closeSnackbar, enqueueSnackbar, SnackbarKey } from "notistack";
 import { useRouter } from "next/navigation";
 // import { test } from "./_services/home.service";
 import ProfileDrawer from "../profile/profilePage";
+import { checkAuthen } from "../../shared/utils/auth";
 
 const HomePage = () => {
   const router = useRouter();
@@ -140,9 +141,9 @@ const HomePage = () => {
     openProfileDrawer.onTrue();
   };
 
-  const handleClickCreate = () => {
-    const accessToken = getAccessToken();
-    if (accessToken) {
+  const handleClickCreate = async () => {
+    const isAuthen = await checkAuthen()
+    if (isAuthen) {
       openCreateDrawer.onTrue();
     } else {
       enqueueSnackbar("กรุณาเข้าสู่ระบบ", {

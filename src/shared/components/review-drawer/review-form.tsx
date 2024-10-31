@@ -8,6 +8,9 @@ import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Image from "next/image";
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { checkAuthen } from "../../utils/auth";
+import { closeSnackbar, enqueueSnackbar, SnackbarKey } from "notistack";
+import { useRouter } from "next/navigation";
 
 interface Review {
   id: number;
@@ -107,6 +110,7 @@ const ReviewForm = ({
   const [newRating, setNewRating] = useState(5);
   const [isFloating, setIsFloating] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const router = useRouter();
 
   const addReview = async () => {
     const createReviewParams: CreateReviewParams = {
@@ -119,6 +123,28 @@ const ReviewForm = ({
     setNewRating(0);
     setIsFloating(false);
     updateReview.onTrue();
+  };
+
+  const notiStackAction = (key: SnackbarKey) => (
+    <button onClick={() => notiStackOnClick(key)}>ไปหน้า login</button>
+  );
+  const notiStackOnClick = (key: SnackbarKey) => {
+    router.replace("/login");
+    closeSnackbar(key);
+  };
+
+  const handleAddReview = async () => {
+    const isAuthen = await checkAuthen();
+    if (isAuthen) {
+      setIsFloating(true), setIsButtonVisible(false);
+    } else {
+      enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: { vertical: "top", horizontal: "left" },
+        action: notiStackAction,
+      });
+    }
   };
 
   const handleRating = (value: number) => {
@@ -148,9 +174,7 @@ const ReviewForm = ({
       </div>
       {isButtonVisible && (
         <button
-          onClick={() => {
-            setIsFloating(true), setIsButtonVisible(false);
-          }}
+          onClick={handleAddReview}
           className={`p-4 ${bgButton} text-white rounded-full fixed bottom-5 right-5 hover:bg-custom-yellow z-50 font-bold text-xl`}
         >
           Add Review
