@@ -5,8 +5,12 @@ import ButtonIcon from "@/shared/components/button/button-icon";
 import Cookies from "js-cookie";
 import { updateUserProfile, fetchUserProfile } from "./services/profile.service";
 import { UpdateProfileData } from "./types/profilePage";
+import { useRouter } from 'next/navigation';
+import { enqueueSnackbar } from "notistack";
+import Link from "next/link";
 
-const EditProfilePage = ({ onClose }: { onClose: () => void }) => {
+const EditProfilePage = () => {
+  const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
@@ -26,6 +30,10 @@ const EditProfilePage = ({ onClose }: { onClose: () => void }) => {
   useEffect(() => {
     console.log("user : ", user_pic);
   }, [user_pic])
+
+  const handleBackIcon = () => {
+    router.push("/");
+  };
 
   const fetchProfile = ()=>{
     const token = Cookies.get("accessToken");
@@ -84,19 +92,27 @@ const EditProfilePage = ({ onClose }: { onClose: () => void }) => {
     formData.append("gender", gender);
     formData.append("date_of_birth", date_of_birth);
     if (imageFile) {
-      formData.append("profile_pic", imageFile, "profile.jpg"); // ตั้งชื่อไฟล์ตามต้องการ
+      formData.append("profile_pic", imageFile, "profile.jpg"); 
     } else {
-      formData.append("profile_pic", user_pic); // หรือส่ง user_pic ที่มีอยู่แล้ว
+      formData.append("profile_pic", user_pic); 
     }
   
     try {
       const response = await updateUserProfile(formData);
       console.log("Profile updated successfully:", response);
+      enqueueSnackbar("Profile updated successfully.", {
+        variant: "success",
+        autoHideDuration: 3000
+      });
 
       fetchProfile()
       setPreviewPic("")
     } catch (error) {
       console.error("Failed to update profile:", error);
+      enqueueSnackbar("Failed to update profile.", {
+        variant: "error",
+        autoHideDuration: 3000
+      });
     }
 
   };
@@ -126,6 +142,7 @@ const EditProfilePage = ({ onClose }: { onClose: () => void }) => {
 
         <input
           type="text"
+          readOnly
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="w-80 p-4 text-lg border rounded-lg text-center"
@@ -134,6 +151,7 @@ const EditProfilePage = ({ onClose }: { onClose: () => void }) => {
 
         <input
           type="email"
+          readOnly
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-80 p-4 text-lg border rounded-lg text-center"
@@ -159,17 +177,17 @@ const EditProfilePage = ({ onClose }: { onClose: () => void }) => {
           />
         </div>
 
+        <Link href="/user/change-password">
+          <p className="underline text-gray-500 cursor-pointer text-center">Change Password?</p>
+        </Link>
+
         <button className="w-80 p-4 text-lg bg-custom-blue text-white rounded-lg" onClick={handleUpdate}>
           Update
         </button>
-
-        <button className="w-80 p-4 text-lg bg-red-400 text-white rounded-lg">
-          Delete Account
-        </button>
       </div>
 
-      <div className="absolute bottom-0 left-0 mb-4 ml-4">
-        <ButtonIcon onClick={onClose} width={30} height={41} alt="rest-icon" src="/assets/icon/back.svg" className="bg-custom-light-yellow" />
+      <div className="absolute bottom-16 left-0 mb-4 ml-4">
+        <ButtonIcon onClick={handleBackIcon} width={30} height={41} alt="rest-icon" src="/assets/icon/back.svg" className="bg-custom-light-yellow" />
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
   const [activeTab, setActiveTab] = useState("Profile");
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("Sam"); 
+  const [username, setUsername] = useState("Guest"); 
   const [profilePicture, setProfilePic] = useState("https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg")
 
   useEffect(() => {
@@ -138,7 +138,7 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick }: Props) => {
           </ul>
         </div>
 
-        <div className="absolute bottom-32 left-4">
+        <div className="absolute bottom-16 left-4">
           <ButtonIcon
             type="button"
             onClick={handleBackIconOnClick}
