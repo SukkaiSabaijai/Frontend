@@ -8,7 +8,7 @@ type MarkerPic = {
   path: string
 }
 
-type MarkerDetailResp = {
+export type MarkerDetailResp = {
   id: number;
   latitude: number;
   longitude: number;
@@ -27,3 +27,15 @@ export type BookmarkResp = {
   short_name: string;
   marker: MarkerDetailResp;
 }
+
+export type BookmarkMarkerDetailResp = {
+  latitude: number;
+  longitude: number;
+  avg_rating: number;
+  location_name: string;
+  detail: string;
+  img: string[];
+  type: MarkerType;
+  category: string[];
+  created_by: string;
+};

@@ -1,6 +1,5 @@
 import { endpoints } from "@/shared/configs/endpoints.config";
 import Axios from "@/shared/utils/axios";
-import { BookmarkResp } from "../_types/bookmark.type"
 
 export const getBookmark = async () => {
   const { data } = await Axios.get(endpoints.bookmark.get);
@@ -23,12 +22,18 @@ export const createBookmark = async (markerId: number, nickname: string) => {
 };
 
 
-export const deleteBookmark = async (markerId: number) => {
-  const { data } = await Axios.delete(endpoints.bookmark.delete(markerId));
+export const deleteBookmark = async (bookmarkId: number) => {
+  const { data } = await Axios.delete(endpoints.bookmark.delete(bookmarkId));
   return data
 }
 
 export const updateBookmark = async (id: number, formData: FormData) => {
   const { data } = await Axios.put(endpoints.bookmark.update(id), formData);
+  return data
+}
+
+export const getBookmarkMarkerDetail = async (id: number) => {
+  const { data } = await Axios.get(endpoints.marker.getId(id));
+  console.log(data)
   return data
 }
