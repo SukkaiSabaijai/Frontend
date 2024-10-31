@@ -11,7 +11,7 @@ const HistoryPage = () => {
         <div className="flex justify-center items-center mt-10 flex-col">
           {
             mock.map( (toilet_name) => {return (
-                  <Card toilet_name={toilet_name} />
+                  <Card short_name={toilet_name} />
                 )
               }
             )
