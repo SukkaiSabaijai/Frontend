@@ -14,10 +14,10 @@ type CardProps = {
 }
 
 const HistoryCard = (props: CardProps) => {
-    const openDetailDrawer = useBoolean(false);
-    const handleBackIconOnClick = () => {
-      openDetailDrawer.onFalse();
-    }
+    // const openDetailDrawer = useBoolean(false);
+    // const handleBackIconOnClick = () => {
+    //   openDetailDrawer.onFalse();
+    // }
 
   return (
     <div className="bg-slate-500 w-[80%] h-60 rounded-3xl mb-8 bg-cover"
