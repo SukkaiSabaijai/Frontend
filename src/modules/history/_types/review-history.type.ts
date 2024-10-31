@@ -4,4 +4,5 @@ export type ReviewHistory = {
     rating: number;
     review: string;
     markerId: number;
+    locationName: string;
 }
