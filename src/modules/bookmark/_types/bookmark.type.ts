@@ -9,6 +9,7 @@ type MarkerPic = {
 }
 
 type MarkerDetailResp = {
+  id: number;
   latitude: number;
   longitude: number;
   avg_rating: number;

@@ -28,7 +28,7 @@ const fetchBookMark = async () => {
         <div className="flex justify-center items-center mt-10 flex-col">
           {bookMarks&&bookMarks.map(
               (bookMark, index) => (
-                  <Card short_name={bookMark.short_name} image={bookMark.marker.marker_pics[0].path}  />
+                  <Card id={bookMark.id} markerId={bookMark.marker.id} short_name={bookMark.short_name} image={bookMark.marker.marker_pics[0].path} />
               )
             )
           }
