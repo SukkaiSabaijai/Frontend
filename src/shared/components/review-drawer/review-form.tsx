@@ -4,9 +4,11 @@ import {
   CreateReviewParams,
   MarkerType,
 } from "@/modules/home/_types/home.type";
+import { fetchUserProfile } from "@/modules/profile/services/profile.service";
+import { UserProfileData } from "@/modules/profile/types/profilePage";
 import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 
 interface Review {
@@ -107,6 +109,7 @@ const ReviewForm = ({
   const [newRating, setNewRating] = useState(5);
   const [isFloating, setIsFloating] = useState(false);
   const [isButtonVisible, setIsButtonVisible] = useState(true);
+  const [userProfile, setUserProfile] = useState<UserProfileData>();
 
   const addReview = async () => {
     const createReviewParams: CreateReviewParams = {
@@ -130,6 +133,15 @@ const ReviewForm = ({
       : "bg-custom-light-yellow";
   const bgButton =
     mode == MarkerType.Toilet ? "bg-custom-blue" : "bg-custom-yellow";
+
+  const fetchUser = async () => {
+    const userDetail = await fetchUserProfile();
+    setUserProfile(userDetail);
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   // const averageRating = (reviews: Review[]) => {
   //   return reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length;
@@ -203,11 +215,17 @@ const ReviewForm = ({
           ></div>
           <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="p-3 border rounded-lg bg-white flex items-center space-x-2 w-3/4">
-              <img
-                src="https://via.placeholder.com/40"
-                alt="User avatar"
-                className="w-10 h-10 rounded-full"
-              />
+              {userProfile && (
+                <img
+                  src={
+                    userProfile.user_pic
+                      ? "http://localhost:5000/image/" + userProfile.user_pic
+                      : "https://i.pinimg.com/736x/c0/74/9b/c0749b7cc401421662ae901ec8f9f660.jpg"
+                  }
+                  alt="User avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+              )}
               <div className="flex-1">
                 <div className="flex text-yellow-500">
                   {Array.from({ length: 5 }).map((_, index) => (
