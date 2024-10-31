@@ -8,30 +8,43 @@ import dynamic from "next/dynamic";
 import { useBoolean } from "@/shared/hooks/use-boolean";
 // import SearchDrawer from "./search-drawer/search-drawer";
 import L, { LatLng } from "leaflet";
-import { getAllMarkers, test } from "./_services/home.service";
+import { getAllMarkers, getFilterMarker, test } from "./_services/home.service";
 import CreateDrawer from "./create-drawer/create-drawer";
 import SelectLocation from "./create-drawer/select-location";
 import {
   AllMarkerResp,
+  AllMarkerType,
+  FilterParam,
   FilterRadiusLatlngType,
   MarkerType,
 } from "./_types/home.type";
 import HomeMap from "./home-map";
 import SearchDrawer from "./search-drawer/search-drawer";
+import { getAccessToken } from "@/lib/getAccessToken";
+import { enqueueSnackbar, SnackbarKey } from "notistack";
+import { useRouter } from "next/navigation";
+// import { test } from "./_services/home.service";
+import ProfileDrawer from "../profile/profilePage";
 
 const HomePage = () => {
+  const router = useRouter();
   const [allMarker, setAllMarker] = useState<AllMarkerResp[]>();
   const [mode, setMode] = useState<MarkerType>(MarkerType.Toilet);
   const openSearchDrawer = useBoolean(false);
+  const openProfileDrawer = useBoolean(false);
   const openCreateDrawer = useBoolean(false);
   const selectLocation = useBoolean(false);
   const [searchBound, setSearchBound] = useState<L.LatLngBounds | null>(null);
+
   const [filterRadius, setFilterRadius] = useState<number | null>(null);
   const flyToCurrentLocation = useBoolean(false);
 
   const [location, setLocation] = useState<LatLng | null>(null);
   const [formValues, setFormValues] = useState({});
 
+  const [filterCategory, setFilterCategory] = useState<string[]>([]);
+  const [filterPrice, setFilterPrice] = useState<string | null>(null);
+  const [filterRating, setFilterRating] = useState<number>(0);
   const [filterRadiusLatlng, setFilterRadiusLatLng] =
     useState<FilterRadiusLatlngType>({
       min_lat: 0,
@@ -49,9 +62,70 @@ const HomePage = () => {
   };
 
   const fetchAllMarker = async () => {
+    console.log(fetchAllMarkerParams);
     const getAll = await getAllMarkers(fetchAllMarkerParams);
 
     setAllMarker(getAll);
+  };
+
+  const fetchMarkerFilter = async () => {
+    const fetchAllMarkeFilterParams: FilterParam = {
+      max_latitude: "20.4644",
+      min_latitude: "5.6130",
+      max_longitude: "105.6368",
+      min_longitude: "97.3453",
+      type: mode,
+    };
+
+    if (filterRadius) {
+      fetchAllMarkeFilterParams.max_latitude = String(
+        filterRadiusLatlng.max_lat
+      );
+      fetchAllMarkeFilterParams.min_latitude = String(
+        filterRadiusLatlng.min_lat
+      );
+      fetchAllMarkeFilterParams.max_longitude = String(
+        filterRadiusLatlng.max_lng
+      );
+      fetchAllMarkeFilterParams.min_longitude = String(
+        filterRadiusLatlng.min_lng
+      );
+    }
+
+    if (mode == MarkerType.REST_AREA) {
+      if (filterCategory.includes("charger"))
+        fetchAllMarkeFilterParams.charger = true;
+      if (filterCategory.includes("wifi"))
+        fetchAllMarkeFilterParams.wifi = true;
+      if (filterCategory.includes("table"))
+        fetchAllMarkeFilterParams.table = true;
+    } else if (mode == MarkerType.Toilet) {
+      if (filterCategory.includes("disable"))
+        fetchAllMarkeFilterParams.disable = true;
+      if (filterCategory.includes("hose"))
+        fetchAllMarkeFilterParams.hose = true;
+      if (filterCategory.includes("flush"))
+        fetchAllMarkeFilterParams.flush = true;
+    }
+
+    if (filterPrice) {
+      console.log("hi");
+      fetchAllMarkeFilterParams.price = Number(filterPrice);
+    }
+
+    if (filterRating != 0) {
+      fetchAllMarkeFilterParams.rating = filterRating;
+    }
+    console.log("filter : ", fetchAllMarkeFilterParams);
+
+    const markerFilter = await getFilterMarker(fetchAllMarkeFilterParams);
+
+    setAllMarker(markerFilter);
+  };
+
+  const handleSearchOnClick = () => {
+    fetchMarkerFilter();
+    openSearchDrawer.onFalse();
   };
 
   /** ******************
@@ -62,8 +136,22 @@ const HomePage = () => {
     openSearchDrawer.onTrue();
   };
 
+  const HandleProfileDrawer = () => {
+    openProfileDrawer.onTrue();
+  };
+
   const handleClickCreate = () => {
-    openCreateDrawer.onTrue();
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      openCreateDrawer.onTrue();
+    } else {
+      enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: { vertical: "top", horizontal: "left" },
+        action: notiStackAction,
+      });
+    }
   };
 
   const handleClickCurrentLocation = () => {
@@ -86,11 +174,14 @@ const HomePage = () => {
 
   const handleBackIconOnClick = () => {
     openCreateDrawer.onFalse();
+    openProfileDrawer.onFalse();
     selectLocation.onFalse();
     setLocation(null);
   };
 
-  const handleFilter = () => {};
+  const notiStackAction = (key: SnackbarKey) => (
+    <button onClick={() => router.replace("/login")}>ไปหน้า login</button>
+  );
 
   useEffect(() => {
     fetchAllMarker();
@@ -107,6 +198,7 @@ const HomePage = () => {
         setFilterRadiusLatlng={setFilterRadiusLatLng}
         flyToCurrentLocation={flyToCurrentLocation}
         allMarker={allMarker}
+        mode={mode}
       />
       {selectLocation.value ? (
         <>
@@ -119,6 +211,7 @@ const HomePage = () => {
         <>
           <HomeButton
             handleClickSearch={handleClickSearch}
+            handleClickProfile={HandleProfileDrawer}
             handleClickCreate={handleClickCreate}
             handleClickCurrentLocation={handleClickCurrentLocation}
             handleClickSelectMode={handleClickSelectMode}
@@ -139,7 +232,20 @@ const HomePage = () => {
         openDrawer={openSearchDrawer}
         setSearchBound={setSearchBound}
         setRadius={setFilterRadius}
+        setFilterCategory={setFilterCategory}
+        setFilterPrice={setFilterPrice}
+        setFilterRating={setFilterRating}
+        filterRating={filterRating}
         filterRadiusLatlng={filterRadiusLatlng}
+        mode={mode}
+        handleSearchOnClick={handleSearchOnClick}
+        categoryList={filterCategory}
+        filterRadius={filterRadius}
+        filterPrice={filterPrice}
+      />
+      <ProfileDrawer
+        openDrawer={openProfileDrawer}
+        handleBackIconOnClick={handleBackIconOnClick}
         mode={mode}
       />
     </>

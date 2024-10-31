@@ -1,13 +1,26 @@
-import axios from 'axios';
-import { RegisterPageState } from '../types/registerPage'; 
+// services/register.service.ts
 
-const API_URL = 'https://your-api-endpoint.com/register';
+import axios from "axios";
+import { RegisterCredentials, RegisterResponse } from "../types/registerPage";
+import Axios from "@/shared/utils/axios";
+import { endpoints } from "@/shared/configs/endpoints.config";
 
-export const registerUser = async (registerData: RegisterPageState): Promise<void> => {
+export const registerUser = async (
+  credentials: RegisterCredentials
+): Promise<RegisterResponse> => {
   try {
-    await axios.post('https://www.melivecode.com/api/users/create', registerData);
+    const response = await Axios.post<RegisterResponse>(
+      endpoints.user.register,
+      credentials
+    );
+    return response.data;
   } catch (error) {
-    console.error('Registration error:', error);
-    throw new Error('Registration failed. Please try again.');
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        error.response?.data.message || "An error occurred during registration."
+      );
+    } else {
+      throw new Error("An unexpected error occurred.");
+    }
   }
 };

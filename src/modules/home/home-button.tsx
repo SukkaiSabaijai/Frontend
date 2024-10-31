@@ -9,6 +9,7 @@ import { MarkerType } from "./_types/home.type";
 
 type Props = {
   handleClickSearch: () => void;
+  handleClickProfile: () => void;
   handleClickCreate: () => void;
   handleClickSelectMode: () => void;
   handleClickCurrentLocation: () => void;
@@ -20,6 +21,7 @@ const HomeButton = ({
   handleClickCreate,
   handleClickSelectMode,
   handleClickCurrentLocation,
+  handleClickProfile,
   mode,
 }: Props) => {
   const openSearchDrawer = useBoolean(false);
@@ -40,6 +42,9 @@ const HomeButton = ({
       ? "/assets/icon/profile.svg"
       : "/assets/icon/profile-yellow.svg";
 
+  const searchTitle =
+    mode == MarkerType.Toilet ? "Search For Toilet" : "Search For Seat";
+
   useEffect(() => {
     console.log(openSearchDrawer.value);
   }, [openSearchDrawer.value]);
@@ -56,6 +61,7 @@ const HomeButton = ({
             alt="profile-icon"
             src={profileSrc}
             mode={mode}
+            onClick={handleClickProfile}
           />
 
           <div className="flex flex-col gap-6">
@@ -92,7 +98,7 @@ const HomeButton = ({
           }`}
           onClick={handleClickSearch}
         >
-          Search For Toilet
+          {searchTitle}
         </Button>
       </div>
     </>

@@ -1,9 +1,14 @@
 import axios, { AxiosInstance } from "axios";
 import { enqueueSnackbar } from "notistack";
-import { clearTokens, getAccessToken, getRefreshToken, setAccessToken } from "../../lib/getAccessToken";
+import {
+  clearTokens,
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+} from "../../lib/getAccessToken";
 
 const instance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
 async function refreshAccessToken() {
@@ -43,7 +48,11 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response && error.response.status === 401 && !originalRequest._retry) {
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       const newAccessToken = await refreshAccessToken();
 
@@ -52,6 +61,11 @@ instance.interceptors.response.use(
         return instance(originalRequest);
       } else {
         console.log("Session expired. Please log in again.");
+        enqueueSnackbar("กรุณาเข้าสู่ระบบ", {
+          variant: "error",
+          autoHideDuration: 3000,
+          anchorOrigin: { vertical: "top", horizontal: "left" },
+        });
       }
     }
 

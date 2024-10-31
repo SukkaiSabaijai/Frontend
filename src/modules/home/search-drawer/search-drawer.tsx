@@ -19,8 +19,16 @@ type Props = {
   openDrawer: UseBooleanReturn;
   setSearchBound: Dispatch<SetStateAction<L.LatLngBounds | null>>;
   setRadius: Dispatch<SetStateAction<number | null>>;
+  setFilterCategory:Dispatch<SetStateAction<string[]>>
+  setFilterPrice:Dispatch<SetStateAction<string|null>>
+  setFilterRating:Dispatch<SetStateAction<number>>
   filterRadiusLatlng: FilterRadiusLatlngType;
+  filterRating:number
+  filterRadius:number | null
   mode: MarkerType;
+  handleSearchOnClick:()=>void
+  categoryList:string[]
+  filterPrice:string | null
 };
 
 const SearchDrawer = ({
@@ -28,23 +36,20 @@ const SearchDrawer = ({
   setSearchBound,
   setRadius,
   filterRadiusLatlng,
+  setFilterCategory,
+  setFilterPrice,
+  setFilterRating,
+  filterRating,
+  filterRadius,
   mode,
+  categoryList,
+  handleSearchOnClick,
+  filterPrice
 }: Props) => {
-  const [filterCategory, setFilterCategory] = useState<string[]>([]);
-  const [filterPrice, setFilterPrice] = useState<string | null>(null);
-  const [filterRating, setFilterRating] = useState<number>(0);
-  const handleSearchOnClick = () => {
-    console.log("cate : ", filterCategory);
-    console.log("price : ", filterPrice);
-    console.log("rating : ", filterRating);
-    console.log("radius : ", filterRadiusLatlng);
-    if (
-      filterCategory.length != 0 &&
-      filterPrice != null &&
-      filterRating != null
-    ) {
-    }
-  };
+  // const [filterCategory, setFilterCategory] = useState<string[]>([]);
+  // const [filterPrice, setFilterPrice] = useState<string | null>(null);
+  // const [filterRating, setFilterRating] = useState<number>(0);
+
 
   const handleBackButton = () => {
     /**
@@ -55,19 +60,23 @@ const SearchDrawer = ({
     <Drawer
       sx={{
         "& .MuiDrawer-paper": {
-          height: "45%",
+          height: { xs: "55%", sm: "45%" }, // More height on extra small screens
           width: "100%",
-          zIndex: "1500",
-          position: "fixed",
+          zIndex: "10",
+          position: "fixed", // Keep Drawer fixed at the bottom
+          bottom: 0, // Position it at the bottom
           borderRadius: "20px 20px 0 0",
           backgroundColor: "#DFECFF",
           padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden", // Prevent overflow of content outside the Drawer
         },
       }}
       anchor="bottom"
       open={openDrawer.value}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex-1 flex flex-col gap-6 overflow-auto z-20">
         <HomeSearch
           setSearchBound={setSearchBound}
           handleSearchOnClick={handleSearchOnClick}
@@ -79,7 +88,19 @@ const SearchDrawer = ({
           setFilterRating={setFilterRating}
           filterRating={filterRating}
           mode={mode}
+          categoryList={categoryList}
+          filterRadius={filterRadius}
+          filterPrice={filterPrice}
         />
+      </div>
+      {/* Place ButtonIcon outside the flex container to align to the bottom */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          marginTop: "auto",
+        }}
+      >
         <ButtonIcon
           onClick={openDrawer.onFalse}
           width={30}
@@ -87,7 +108,7 @@ const SearchDrawer = ({
           alt="rest-icon"
           src="/assets/icon/back.svg"
           className="bg-custom-light-yellow"
-        ></ButtonIcon>
+        />
       </div>
     </Drawer>
   );

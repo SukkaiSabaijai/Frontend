@@ -32,3 +32,8 @@ export const loginUser = async (
     }
   }
 };
+
+export const logoutUser = () => {
+  Cookies.remove("accessToken");
+  Cookies.remove("refreshToken");
+};

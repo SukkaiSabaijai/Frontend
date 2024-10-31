@@ -3,19 +3,25 @@
 import ButtonIcon from "@/shared/components/button/button-icon";
 import { UseBooleanReturn } from "@/shared/hooks/use-boolean";
 import Drawer from "@mui/material/Drawer";
+import ReviewForm from "@/shared/components/review-drawer/review-form";
+import { AllMarkerResp, AllReviewResp } from "../_types/home.type";
+
+
 
 type Props = {
     openDrawer: UseBooleanReturn;
+    markerReview: AllReviewResp;
+    updateReview: UseBooleanReturn;
   };
 
-  const ReviewDrawer = ({ openDrawer }: Props) => {
+  const ReviewDrawer = ({ openDrawer, markerReview, updateReview}: Props) => {
     return (
       <Drawer
         open={openDrawer.value}
         anchor="bottom"
         sx={{
           "& .MuiDrawer-paper": {
-            height: "50%",
+            height: "60%",
             width: "100%",
             zIndex: "1500",
             position: "fixed",
@@ -25,13 +31,14 @@ type Props = {
           },
         }}
       >
+        <ReviewForm markerReview={markerReview} updateReview={updateReview}/>
         <ButtonIcon
         onClick={openDrawer.onFalse}
         width={30}
         height={41}
         alt="rest-icon"
         src="/assets/icon/back.svg"
-        className="bg-custom-light-yellow"
+        className="bg-custom-light-yellow fixed bottom-5 left-5 z-50"
       ></ButtonIcon>
       </Drawer>
     );

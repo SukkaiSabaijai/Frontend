@@ -1,3 +1,5 @@
+import { boolean } from "zod";
+
 export type FilterRadiusLatlngType = {
   min_lat: number;
   max_lat: number;
@@ -6,16 +8,19 @@ export type FilterRadiusLatlngType = {
 };
 
 export type FilterParam = {
-  min_lat: string;
-  max_lat: string;
-  min_lng: string;
-  max_lng: string;
+  max_latitude: string;
+  min_latitude: string;
+  max_longitude: string;
+  min_longitude: string;
   type: MarkerType;
-  disable?: string;
-  flush?: string;
-  hose?: string;
-  price?: string;
-  rating?: string;
+  disable?: boolean;
+  flush?: boolean;
+  hose?: boolean;
+  price?: number;
+  rating?: number;
+  charger?: boolean;
+  table?: boolean;
+  wifi?: boolean;
 };
 
 export type AllMarkerType = {
@@ -24,9 +29,18 @@ export type AllMarkerType = {
   max_longitude: string;
   min_longitude: string;
   type: MarkerType;
+  price?: number;
+  rating?: number;
+  disable?: boolean;
+  flush?: boolean;
+  hose?: boolean;
+  charger?: boolean;
+  table?: boolean;
+  wifi?: boolean;
 };
 
 export type MarkerDetailResp = {
+  id: number;
   latitude: number;
   longitude: number;
   avg_rating: number;
@@ -47,10 +61,29 @@ export type AllMarkerResp = {
 
 export enum MarkerType {
   Toilet = "toilet",
-  REST_AREA = "reat_area",
+  REST_AREA = "rest_area",
 }
 
 export const categoriesMap: Record<MarkerType, string[]> = {
   [MarkerType.Toilet]: ["disable", "flush", "hose"],
   [MarkerType.REST_AREA]: ["charger", "table", "wifi"],
 };
+
+export type AllReviewResp={
+  markerId:number
+  avgRating:number
+  reviewCount:number
+  reviews:ReviewDetail[]
+  }
+  
+  type ReviewDetail={
+  username:string
+  userPic:string
+  rating:number
+  review:string
+  }
+export type CreateReviewParams={
+  markerId:string;
+  rating:string;
+  review:string;
+}
