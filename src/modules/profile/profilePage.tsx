@@ -67,7 +67,6 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
           width: "100%",
           zIndex: 1500,
           position: "fixed",
-          borderRadius: "20px 20px 0 0",
           backgroundColor: bgDrawer,
           overflowY: "auto",
         },
@@ -150,8 +149,8 @@ const ProfileDrawer = ({ openDrawer, handleBackIconOnClick, mode }: Props) => {
             width={30}
             height={41}
             alt="rest-icon"
-            src="/assets/icon/back.svg"
-            className="bg-custom-light-yellow"
+            mode={mode}
+            src={mode == MarkerType.Toilet ? "/assets/icon/back-to-toilet-real.svg"  :"/assets/icon/back.svg"}
           ></ButtonIcon>
         </div>
       </div>
