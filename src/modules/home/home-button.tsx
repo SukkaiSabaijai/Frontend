@@ -9,6 +9,7 @@ import { MarkerType } from "./_types/home.type";
 
 type Props = {
   handleClickSearch: () => void;
+  handleClickProfile: () => void;
   handleClickCreate: () => void;
   handleClickSelectMode: () => void;
   handleClickCurrentLocation: () => void;
@@ -20,6 +21,7 @@ const HomeButton = ({
   handleClickCreate,
   handleClickSelectMode,
   handleClickCurrentLocation,
+  handleClickProfile,
   mode,
 }: Props) => {
   const openSearchDrawer = useBoolean(false);
@@ -59,6 +61,7 @@ const HomeButton = ({
             alt="profile-icon"
             src={profileSrc}
             mode={mode}
+            onClick={handleClickProfile}
           />
 
           <div className="flex flex-col gap-6">

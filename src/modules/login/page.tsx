@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Button from "@/shared/components/button/button";
 import { loginUser } from "./services/login.service";
-import { LoginCredentials, LoginResponse } from "./types/loginPage"; 
+import { LoginCredentials } from "./types/loginPage"; 
 
 const LoginPage: React.FC = () => {
+  const router = useRouter();
   const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +21,9 @@ const LoginPage: React.FC = () => {
     try {
       const credentials: LoginCredentials = { username, password }; 
       const response = await loginUser(credentials);
+
       console.log('Login successful:', response);
+      router.push("/");
     } catch (error: any) {
       setError(error.message); 
     } finally {
@@ -60,9 +65,9 @@ const LoginPage: React.FC = () => {
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
         <div className="text-center mb-16 w-full">
-          <p className="underline text-gray-500">
-            Register?
-          </p>
+          <Link href="/register">
+            <p className="underline text-gray-500 cursor-pointer">Register?</p>
+          </Link>
         </div>
 
         <div className="flex justify-center w-full">
