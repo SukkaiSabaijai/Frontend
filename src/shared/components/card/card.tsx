@@ -44,7 +44,7 @@ const Card = (props: CardProps) => {
 
     return (
       <>
-        <DetailDrawer openDrawer={openDetailDrawer} handleBackIconOnClick={handleBackIconOnClick} markerDetail={bookmarkMarkerDetail} />
+        {/* <DetailDrawer openDrawer={openDetailDrawer} handleBackIconOnClick={handleBackIconOnClick} markerDetail={bookmarkMarkerDetail} /> */}
         <div className="bg-slate-500 w-[80%] h-60 rounded-3xl mb-8 bg-cover"
             onClick={handleBookmarkMarkerDetail}
             style={{ backgroundImage: `url(http://localhost:5000/image/${props.marker.marker_pics[0].path})`}}
