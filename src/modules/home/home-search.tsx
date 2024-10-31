@@ -67,22 +67,22 @@ const HomeSearch = ({ setSearchBound,handleSearchOnClick }: Props) => {
     }
   }, [autocomplete]);
   return (
-    <div className="flex gap-8 items-center">
-      <input
-        ref={placeAutocompleteRef}
-        type="text"
-        placeholder="Search for a place"
-        className="shadow-md shadow-slate-400 h-12 w-full p-2 text-[16px] z-[2000]"
-      />
-      <ButtonIcon
-        src="/assets/icon/search.svg"
-        alt="search-icon"
-        width={25}
-        height={25}
-        className="rounded-full h-14"
-        onClick={handleSearchOnClick}
-      />
-    </div>
+<div className="flex items-center justify-between">
+  <input
+    ref={placeAutocompleteRef}
+    type="text"
+    placeholder="Search for a place"
+    className="shadow-md shadow-slate-400 h-12 w-[100%] p-2 text-[16px] z-[2000]"
+  />
+  <ButtonIcon
+    src="/assets/icon/search.svg"
+    alt="search-icon"
+    width={25}
+    height={25}
+    className="rounded-full h-14 ml-2" // Margin-left for spacing
+    onClick={handleSearchOnClick}
+  />
+</div>
   );
 };
 

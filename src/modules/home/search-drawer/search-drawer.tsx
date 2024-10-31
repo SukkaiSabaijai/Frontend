@@ -60,19 +60,23 @@ const SearchDrawer = ({
     <Drawer
       sx={{
         "& .MuiDrawer-paper": {
-          height: "45%",
+          height: { xs: "55%", sm: "45%" }, // More height on extra small screens
           width: "100%",
-          zIndex: "1500",
-          position: "fixed",
+          zIndex: "10",
+          position: "fixed", // Keep Drawer fixed at the bottom
+          bottom: 0, // Position it at the bottom
           borderRadius: "20px 20px 0 0",
           backgroundColor: "#DFECFF",
           padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden", // Prevent overflow of content outside the Drawer
         },
       }}
       anchor="bottom"
       open={openDrawer.value}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex-1 flex flex-col gap-6 overflow-auto z-20">
         <HomeSearch
           setSearchBound={setSearchBound}
           handleSearchOnClick={handleSearchOnClick}
@@ -88,6 +92,15 @@ const SearchDrawer = ({
           filterRadius={filterRadius}
           filterPrice={filterPrice}
         />
+      </div>
+      {/* Place ButtonIcon outside the flex container to align to the bottom */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-start",
+          marginTop: "auto",
+        }}
+      >
         <ButtonIcon
           onClick={openDrawer.onFalse}
           width={30}
@@ -95,7 +108,7 @@ const SearchDrawer = ({
           alt="rest-icon"
           src="/assets/icon/back.svg"
           className="bg-custom-light-yellow"
-        ></ButtonIcon>
+        />
       </div>
     </Drawer>
   );
